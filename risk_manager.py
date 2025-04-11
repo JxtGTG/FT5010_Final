@@ -3,7 +3,7 @@
 risk_manager.py - Risk Management Module
 
 This module provides functions for retrieving prices, account balance, computing order parameters,
-placing market orders, querying open positions, calculating unrealized PnL, and closing all trades.
+placing market orders, querying open positions, calculating unrealized PnL, and closing trades.
 """
 
 import os
@@ -103,14 +103,7 @@ def get_quantities(instruments, trade_directions):
 
     Parameters:
       instruments: A list of currency pairs (must be 5 pairs).
-      trade_directions: A dictionary where keys are instruments and values are "BUY" or "SELL", e.g.:
-          {
-              "EUR_USD": "BUY",
-              "GBP_USD": "SELL",
-              "USD_JPY": "BUY",
-              "AUD_USD": "BUY",
-              "USD_CAD": "SELL"
-          }
+      trade_directions: A dictionary where keys are instruments and values are "BUY" or "SELL".
 
     For each instrument, calculation is as follows:
       - If trade direction is "BUY": take profit price = current price * (1 + 0.01),
@@ -123,7 +116,6 @@ def get_quantities(instruments, trade_directions):
 
     Returns:
       A dictionary in the format {instrument: (stop_loss_price, take_profit_price, position_size)}.
-      If the parameters for a given instrument cannot be computed, that instrument is skipped.
     """
     prices = get_current_prices(instruments)
     if prices is None:
@@ -152,7 +144,7 @@ def get_quantities(instruments, trade_directions):
             print(f"{inst} has an invalid trade direction")
             continue
 
-        # Determine position size based on quote currency (the latter part of the pair)
+        # Determine position size based on quote currency
         trade_currency = inst[4:]
         if "USD" in trade_currency:
             position_size = 100000
@@ -236,10 +228,8 @@ def place_market_orders(order_dict):
             request = orders.OrderCreate(accountID, data=data)
             response = client.request(request)
             print(f"Order for {inst} submitted successfully: {response}")
-            # Uncomment send_email_notification() if email notifications are needed
         except V20Error as e:
             print(f"Error submitting order for {inst}: {e}")
-            # Uncomment send_email_notification() if email notifications are needed
 
 
 def close_all_trades(client, account_id):
@@ -264,3 +254,26 @@ def close_all_trades(client, account_id):
             print("There are no open trades.")
     except Exception as e:
         print(f"Error while closing all trades: {e}")
+
+
+def close_position(instrument):
+    """
+    Close the open position for a single instrument.
+    This function uses the OANDA PositionClose endpoint to close both long and short units ("ALL") for the given instrument.
+    
+    Parameters:
+      instrument: A string, e.g. 'EUR_USD'
+    
+    Returns:
+      The API response if successful; None otherwise.
+    """
+    from oandapyV20.endpoints.positions import PositionClose
+    data = {"longUnits": "ALL", "shortUnits": "ALL"}
+    try:
+        request = PositionClose(accountID, instrument=instrument, data=data)
+        response = client.request(request)
+        print(f"Position for {instrument} closed successfully: {response}")
+        return response
+    except Exception as e:
+        print(f"Error closing position for {instrument}: {e}")
+        return None
