@@ -227,7 +227,8 @@ def place_market_orders(order_dict):
         try:
             request = orders.OrderCreate(accountID, data=data)
             response = client.request(request)
-            print(f"Order for {inst} submitted successfully: {response}")
+            # print(f"Order for {inst} submitted successfully: {response}")
+            print(f"Order for {inst} submitted successfully!")
         except V20Error as e:
             print(f"Error submitting order for {inst}: {e}")
 
@@ -247,7 +248,8 @@ def close_all_trades(client, account_id):
                     data = {"units": "ALL"}
                     order_request = trades.TradeClose(accountID=account_id, tradeID=trade_id, data=data)
                     close_response = client.request(order_request)
-                    print(f"Trade {trade_id} closed successfully: {close_response}")
+                    # print(f"Trade {trade_id} closed successfully: {close_response}")
+                    print(f"Trade {trade_id} closed successfully!")
                 except V20Error as e:
                     print(f"Failed to close trade {trade_id}: {e}")
         else:
@@ -272,7 +274,9 @@ def close_position(instrument):
     try:
         request = PositionClose(accountID, instrument=instrument, data=data)
         response = client.request(request)
-        print(f"Position for {instrument} closed successfully: {response}")
+        # print(f"Position for {instrument} closed successfully: {response}")
+        print(f"Position for {instrument} closed successfully")
+
         return response
     except Exception as e:
         print(f"Error closing position for {instrument}: {e}")
