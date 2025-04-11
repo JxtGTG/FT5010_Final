@@ -5,56 +5,61 @@ import traceback
 from dotenv import load_dotenv
 import oandapyV20
 
-# Import the strategy module, risk manager module, and notification module (uncomment notification import if needed)
+# Import the strategy module and the risk management module
 from strategy import LiveStrategy
 from risk_manager import (
-    get_quantities,           # This function calculates order parameters in bulk
-    place_market_orders,      # Bulk order placement interface
+    get_quantities,
+    place_market_orders,
     get_open_positions,
     get_current_balance,
-    calculate_total_unrealised_pnl,
-    close_all_trades
+    close_all_trades,
+    close_position  # Newly added function for closing an individual instrument's position
 )
-# from notification import send_email_notification  # Uncomment if email notifications are needed
+# Uncomment the following import if email notifications are required
+# from notification import send_email_notification
 
 load_dotenv()
 
-# Load access token and account info from environment variables
+# Load account credentials and information
 access_token = os.getenv('access_token')
 account_id = os.getenv('account_id')
 accountID = account_id
 
-# Initialize OANDA client (set to "practice" here; change to "live" for real trading)
+# Initialize the OANDA API client (using practice mode)
 client = oandapyV20.API(access_token=access_token, environment="practice")
 
-# --------------------- Parameter Settings --------------------- #
-instrument = ['EUR_USD', 'GBP_USD', 'USD_JPY', 'AUD_USD', 'USD_CAD']  # Currency pair list (must be 5 pairs)
-lookback_count = 200         # Number of historical candlesticks to retrieve
-stma_period = 9              # Short-term moving average window
-ltma_period = 20             # Long-term moving average window
-granularity = 'H1'           # Candlestick granularity
+# --------------------- Settings --------------------- #
+# Define the instruments (5 currency pairs)
+instruments = ['EUR_USD', 'GBP_USD', 'USD_JPY', 'AUD_USD', 'USD_CAD']
+lookback_count = 200         # Number of historical candles to retrieve
+stma_period = 9              # Short-term moving average period
+ltma_period = 20             # Long-term moving average period
+granularity = 'H1'           # Candle granularity
 
-# Initialize trading state
-inposition = False           # Flag indicating if currently in position
+# Get the initial account balance
 opening_balance = get_current_balance()
-stoploss_pnl = 25            # Stop-loss threshold (example)
-risk_reward = 0.75           # Risk-reward ratio, example set to 75%
-target_pnl = stoploss_pnl * risk_reward
+
+# Default stop loss and risk-reward parameters for each instrument (these can be set individually)
+default_stoploss = 25        # Stop loss threshold
+default_risk_reward = 0.75   # Risk-reward ratio
+
+# Global variables indicating whether any positions are open and storing the order parameters for each instrument
+# Format: { "EUR_USD": (stop_loss_price, take_profit_price, quantity), ... }
+inposition = False
+open_trade_params = {}
 
 last_print_time = time.time()
-time_interval = 15  # Log output interval in seconds
+time_interval = 15  # Log output interval (in seconds)
 
 print("=" * 50)
 print("************* STARTED LIVE TRADING **************")
 print("=" * 50)
 print("Starting balance     : {:.2f}".format(opening_balance))
-print("Take Profit initial  : {:.2f}".format(target_pnl))
-print("Stop loss initial    : {:.2f}".format(stoploss_pnl))
 print("-" * 50)
 
-# Create strategy object using the LiveStrategy class from strategy.py
+# Create a strategy object. It is assumed that the LiveStrategy class implements the update_signal() method to generate signals for each instrument.
 live_strategy = LiveStrategy(
-    instruments=instrument,
+    instruments=instruments,
     lookback_count=lookback_count,
     stma_period=stma_period,
     ltma_period=ltma_period,
@@ -64,36 +69,38 @@ live_strategy = LiveStrategy(
 
 def find_quantities_and_trade(trade_directions):
     """
-    Calculate order parameters and place orders based on the trading direction for each pair.
+    Calculate order parameters and place orders based on the trading directions for each instrument,
+    while recording each instrument's order parameters in the open_trade_params dictionary for later monitoring.
     
-    Parameters:
-      trade_directions: A dictionary in the format {"EUR_USD": "BUY", "GBP_USD": "SELL", ...}
+    Example format of trade_directions:
+       {"EUR_USD": "BUY", "GBP_USD": "SELL", ...}
     """
-    global inposition
-    # Call the risk manager's get_quantities function to compute order parameters in bulk, which returns a dictionary
-    orders_params = get_quantities(instrument, trade_directions)
+    global inposition, open_trade_params
+    orders_params = get_quantities(instruments, trade_directions)
     if orders_params is None or len(orders_params) == 0:
         print("Failed to compute order parameters, abandoning trade")
         return
 
     print("-" * 30)
-    for inst, (stoploss, takeprofit, quantity) in orders_params.items():
+    for inst, (stoploss_price, takeprofit_price, quantity) in orders_params.items():
         print("Trade Details:")
         print(f"Instrument : {inst}")
         print(f"Volume     : {quantity}")
-        print(f"StopLoss   : {stoploss}")
-        print(f"TakeProfit : {takeprofit}")
-    # Place orders in bulk for all instruments that have computed parameters
-    order_dict = {inst: (quantity, takeprofit, stoploss) for inst, (stoploss, takeprofit, quantity) in orders_params.items()}
+        print(f"StopLoss   : {stoploss_price}")
+        print(f"TakeProfit : {takeprofit_price}")
+    # Place orders in bulk
+    order_dict = {inst: (quantity, takeprofit_price, stoploss_price) for inst, (stoploss_price, takeprofit_price, quantity) in orders_params.items()}
     place_market_orders(order_dict)
     print("-" * 30)
+    # Save each instrument's order parameters for later monitoring
+    open_trade_params = orders_params.copy()
     inposition = True
     time.sleep(3)
 
 # Main trading loop
 while True:
     try:
-        # If not currently in a position, generate signals and place orders
+        # If no positions are open, generate signals and place orders
         if not inposition:
             trade_directions = live_strategy.update_signal()
             if not trade_directions or len(trade_directions) == 0:
@@ -101,35 +108,47 @@ while True:
             else:
                 print(f"Trading opportunity detected: {trade_directions}")
                 find_quantities_and_trade(trade_directions)
-                # Uncomment send_email_notification() here if notifications are needed
-        # If already in a position, monitor PnL
-        if inposition:
-            positions_dict = get_open_positions()
-            long_pnl, short_pnl, total_pnl = calculate_total_unrealised_pnl(positions_dict)
-            current_time = time.time()
-            if current_time - last_print_time >= time_interval:
-                print(f"Target: {target_pnl:.2f} | StopLoss: {stoploss_pnl:.2f} | PNL: {total_pnl:.2f}")
-                last_print_time = current_time
 
-            # Check if stop profit or stop loss conditions are met
-            if (total_pnl > target_pnl) or (total_pnl < -stoploss_pnl):
-                if total_pnl > target_pnl:
-                    msg = f"Profit target reached, Target: {target_pnl:.2f} | Actual: {total_pnl:.2f}"
+        # If positions are open, monitor each instrument's position individually
+        if inposition:
+            positions_list = get_open_positions()  # Expected to return a list where each element contains info for an instrument
+            # Iterate over each position
+            for pos in positions_list:
+                # Assume the position info contains an "instrument" field and current position information (e.g., long/short parts)
+                inst = pos.get("instrument")
+                if not inst:
+                    continue
+                # Here it is assumed that pos['long'] and pos['short'] both contain "unrealizedPL" and "currentPrice" (or you may obtain current price via other API calls)
+                try:
+                    # This example uses pos.get("currentPrice", 0); modify as needed to fetch the actual current price
+                    current_price = float(pos.get("currentPrice", 0))
+                except Exception as e:
+                    print(f"Error reading current price for {inst}: {e}")
+                    continue
+
+                # If order parameters for this instrument exist in open_trade_params, check if its individual exit condition is met
+                if inst in open_trade_params:
+                    stoploss_price, takeprofit_price, _ = open_trade_params[inst]
+                    # Assuming a long position: if the current price is greater than or equal to takeprofit or less than or equal to stoploss, close the position
+                    if current_price >= takeprofit_price or current_price <= stoploss_price:
+                        print(f"{inst}: Current price {current_price} reached target levels (TakeProfit: {takeprofit_price}, StopLoss: {stoploss_price}).")
+                        close_position(inst)  # Call the function from risk_manager to close the position for this instrument only
+                        # Remove the record for this instrument
+                        open_trade_params.pop(inst, None)
                 else:
-                    msg = f"Stop-loss triggered, Target: {target_pnl:.2f} | Actual: {total_pnl:.2f}"
-                print(msg)
-                close_all_trades(client, accountID)
-                print("All positions closed")
-                print("=" * 50)
-                current_balance = get_current_balance()
-                print("Current balance: {:.2f}".format(current_balance))
-                # Reset state for the next trade
+                    continue
+
+            # Check whether all positions have been closed
+            positions_list = get_open_positions()
+            if not positions_list or len(positions_list) == 0:
                 inposition = False
+                current_balance = get_current_balance()
+                print("=" * 50)
+                print("All positions closed")
+                print("Current balance: {:.2f}".format(current_balance))
+                # Update account balance and reset state
                 opening_balance = current_balance
-                stoploss_pnl = 25
-                risk_reward = 0.75
-                target_pnl = stoploss_pnl * risk_reward
-                # Uncomment send_email_notification("Closing Trades", msg) here if notifications are needed
+                open_trade_params = {}
         else:
             pass
 
