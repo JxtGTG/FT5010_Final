@@ -154,7 +154,7 @@ class LiveStrategy:
 if __name__ == "__main__":
     # Define multiple currency pairs
     instruments = ['EUR_USD', 'GBP_USD', 'USD_JPY', 'AUD_USD', 'USD_CAD']
-    strategy = LiveStrategy(instruments=instruments, lookback_count=200, stma_period=9, ltma_period=20, rsi_period=30)
+    strategy = LiveStrategy(instruments=instruments, lookback_count=200, stma_period=10, ltma_period=45, rsi_period=10)
     
     while True:
         signals = strategy.update_signal()

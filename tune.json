@@ -30812,12 +30812,12 @@
     ],
     "final_train_metrics": {
         "Sharpe Ratio": 0.5596475608821869,
-        "Annualized Return": NaN,
+        "Annualized Return": null,
         "Annualized Volatility": 0.05513926503877425,
-        "Final Accumulated Profit": NaN,
+        "Final Accumulated Profit": null,
         "Maximum Drawdown": -0.1113080426100741,
-        "Calmar Ratio": NaN,
-        "Sortino Ratio": NaN,
+        "Calmar Ratio": null,
+        "Sortino Ratio": null,
         "Treynor Ratio": -0.006340526755747367,
         "Information Ratio": 0.035254476192438725
     },
