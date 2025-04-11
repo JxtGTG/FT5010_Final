@@ -16,7 +16,7 @@ client = oandapyV20.API(access_token=access_token, environment="practice")
 app = dash.Dash(__name__)
 app.title = "Live Trading Dashboard"
 
-# 自定义 HTML 模板，包含 CSS
+# Custom HTML template
 app.index_string = '''
 <!DOCTYPE html>
 <html>
@@ -88,33 +88,16 @@ app.index_string = '''
                 display: inline-block;
             }
             
-            .strategy-description {
-                background-color: var(--card-bg);
-                border-radius: 8px;
-                padding: 20px;
-                margin-bottom: 25px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            }
-
-            .strategy-description h3 {
-                color: var(--primary);
-                margin-bottom: 15px;
-                font-size: 1.5rem;
-                border-bottom: 2px solid var(--secondary);
-                padding-bottom: 8px;
-                display: inline-block;
-            }
-
             .strategy-description p {
                 margin-bottom: 15px;
                 line-height: 1.7;
             }
-
+            
             .trading-conditions {
                 margin: 20px 0;
                 padding-left: 20px;
             }
-
+            
             .condition-item {
                 margin-bottom: 12px;
                 padding: 10px 15px;
@@ -122,35 +105,35 @@ app.index_string = '''
                 background-color: #f8f9fa;
                 border-left: 4px solid var(--secondary);
             }
-
+            
             .buy-condition {
                 border-left-color: var(--success);
                 background-color: rgba(46, 204, 113, 0.1);
             }
-
+            
             .sell-condition {
                 border-left-color: var(--danger);
                 background-color: rgba(231, 76, 60, 0.1);
             }
-
+            
             .hold-condition {
                 border-left-color: var(--warning);
                 background-color: rgba(243, 156, 18, 0.1);
             }
-
+            
             .condition-label {
                 font-weight: bold;
                 margin-right: 5px;
             }
-
+            
             .buy-label {
                 color: var(--success);
             }
-
+            
             .sell-label {
                 color: var(--danger);
             }
-
+            
             .hold-label {
                 color: var(--warning);
             }
@@ -226,7 +209,6 @@ app.index_string = '''
             }
             
             .time-range-selector {
-                
                 width: 100%;
                 max-width: 500px;
                 margin: 0 auto 25px auto;
@@ -280,6 +262,120 @@ app.index_string = '''
                 color: #95a5a6;
                 margin-top: 20px;
             }
+            
+            /* Positions table styles */
+            .positions-container {
+                grid-column: 1 / -1;
+                background-color: var(--card-bg);
+                border-radius: 8px;
+                padding: 20px;
+                margin-top: 20px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+            
+            .positions-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+            
+            .positions-table th, .positions-table td {
+                padding: 15px 20px;
+                text-align: left;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .positions-table th {
+                background-color: #f8f9fa;
+                color: var(--primary);
+                font-weight: 600;
+                font-size: 1.1rem;
+            }
+            
+            .positions-table td {
+                font-size: 1.1rem;
+            }
+            
+            .positions-table tr:hover {
+                background-color: #f8f9fa;
+            }
+            
+            .no-positions {
+                text-align: center;
+                padding: 30px;
+                color: #95a5a6;
+                font-style: italic;
+                font-size: 1.2rem;
+            }
+            
+            .positions-heading {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+            
+            .positions-heading h3 {
+                color: var(--primary);
+                margin: 0;
+                font-size: 1.5rem;
+            }
+            
+            .position-badge {
+                display: inline-block;
+                padding: 6px 12px;
+                border-radius: 15px;
+                font-size: 1rem;
+                font-weight: bold;
+            }
+            
+            .profit {
+                background-color: rgba(46, 204, 113, 0.2);
+                color: var(--success);
+            }
+            
+            .loss {
+                background-color: rgba(231, 76, 60, 0.2);
+                color: var(--danger);
+            }
+            
+            .pnl-cell {
+                font-weight: bold;
+                font-size: 1.1rem;
+            }
+            
+            .realized-pnl-cell {
+                font-weight: bold;
+                font-size: 1.1rem;
+            }
+            
+            .instrument-cell {
+                font-weight: 500;
+                font-size: 1.2rem;
+            }
+            
+            .position-size {
+                font-weight: 500;
+            }
+            
+            .position-long {
+                color: var(--success);
+                font-weight: bold;
+            }
+            
+            .position-short {
+                color: var(--danger);
+                font-weight: bold;
+            }
+            
+            .entry-price {
+                font-weight: 500;
+            }
+            
+            .margin-used {
+                font-size: 0.95rem;
+                color: #666;
+            }
         </style>
     </head>
     <body>
@@ -315,8 +411,22 @@ initial_balance = current_balance  # Record the initial balance
 open_positions = []
 kill_switch_triggered = False  # Track if the Kill Switch has been activated
 
+# Function to calculate Risk of Ruin based on maximum drawdown
+def calculate_risk_of_ruin_from_returns(returns):
+    if not returns:
+        return 0.0
+    peak = returns[0]
+    max_drawdown = 0.0
+    for r in returns:
+        if r > peak:
+            peak = r
+        drawdown = peak - r
+        if drawdown > max_drawdown:
+            max_drawdown = drawdown
+    return max_drawdown
+
 # Lists to store returns over time
-strategy_returns = []  # List to store strategy returns
+strategy_returns = []  # List to store strategy returns (percentage values)
 timestamps = []  # List to store corresponding timestamps
 benchmark_return = (running_strategy["risk_free_rate"] / 365) * 100  # Daily risk-free rate converted to percentage
 
@@ -337,7 +447,7 @@ def update_data():
             open_positions = open_positions_dict
             strategy_return = ((current_balance - initial_balance) / initial_balance) * 100
 
-            # Append data for plotting
+            # Append data for plotting and risk calculation
             strategy_returns.append(strategy_return)
             timestamps.append(time.time())  # Use Unix timestamp for accurate time filtering
         except Exception as e:
@@ -347,6 +457,105 @@ def update_data():
 # Start the data update thread
 thread = threading.Thread(target=update_data, daemon=True)
 thread.start()
+
+# Function to generate the positions table with carefully selected information
+def generate_positions_table(positions):
+    if not positions:
+        return html.Div(className="no-positions", children=["No open positions at the moment."])
+    
+    # Create table header with the most valuable information
+    header = html.Tr([
+        html.Th("Instrument"),
+        html.Th("Position Size"),
+        html.Th("Entry Price"),
+        html.Th("Unrealized P/L"),
+        html.Th("Total P/L")
+    ])
+    
+    # Create table rows for each position
+    rows = []
+    for position in positions:
+        # Extract instrument
+        instrument = position.get("instrument", "Unknown")
+        
+        # Get position details - focusing on long position since that's what's active in your example
+        long_units = "0"
+        avg_price = "0.00000"
+        
+        if "long" in position and position["long"] and "units" in position["long"]:
+            long_dict = position["long"]
+            try:
+                long_units = int(float(long_dict.get("units", "0")))
+                avg_price = float(long_dict.get("averagePrice", "0"))
+            except (ValueError, TypeError):
+                long_units = 0
+                avg_price = 0
+        
+        short_units = "0"
+        if "short" in position and position["short"] and "units" in position["short"]:
+            short_dict = position["short"]
+            try:
+                short_units = int(float(short_dict.get("units", "0")))
+            except (ValueError, TypeError):
+                short_units = 0
+        
+        # Determine position type
+        position_type = ""
+        position_units = 0
+        position_class = ""
+        
+        if long_units and int(long_units) > 0:
+            position_type = "LONG"
+            position_units = long_units
+            position_class = "position-long"
+        elif short_units and int(short_units) < 0:
+            position_type = "SHORT"
+            position_units = short_units
+            position_class = "position-short"
+        
+        # Get unrealized and total P/L
+        try:
+            unrealized_pnl = float(position.get("unrealizedPL", "0"))
+        except (ValueError, TypeError):
+            unrealized_pnl = 0
+            
+        try:
+            total_pl = float(position.get("pl", "0"))
+        except (ValueError, TypeError):
+            total_pl = 0
+            
+        # Format the margin used if available
+        try:
+            margin_used = float(position.get("marginUsed", "0"))
+            margin_text = f"Margin: ${margin_used:.2f}"
+        except (ValueError, TypeError):
+            margin_text = ""
+        
+        # Style for P/L
+        unrealized_pnl_class = "pnl-cell profit" if unrealized_pnl >= 0 else "pnl-cell loss"
+        total_pnl_class = "realized-pnl-cell profit" if total_pl >= 0 else "realized-pnl-cell loss"
+        
+        # Create row with the most important information
+        row = html.Tr([
+            html.Td([
+                html.Div(str(instrument).replace("_", "/"), className="instrument-cell"),
+                html.Div(margin_text, className="margin-used") if margin_text else ""
+            ]),
+            html.Td(html.Span(f"{abs(position_units):,}", className=position_class)),
+            html.Td(f"{avg_price:.5f}", className="entry-price"),
+            html.Td(html.Span(f"${unrealized_pnl:.2f}", className=unrealized_pnl_class)),
+            html.Td(html.Span(f"${total_pl:.2f}", className=total_pnl_class))
+        ])
+        
+        rows.append(row)
+    
+    return html.Table(
+        className="positions-table",
+        children=[
+            html.Thead(header),
+            html.Tbody(rows)
+        ]
+    )
 
 # Dash layout with updated classes
 app.layout = html.Div(
@@ -365,15 +574,6 @@ app.layout = html.Div(
                 )
             ]
         ),
-
-        # Strategy Description
-        # html.Div(
-        #     className="strategy-description",
-        #     children=[
-        #         html.H3("Strategy Description"),
-        #         html.Div(running_strategy["description"]),
-        #     ]
-        # ),
         
         # Strategy Description with separated conditions
         html.Div(
@@ -432,17 +632,31 @@ app.layout = html.Div(
                 html.Div(
                     className="metric-card",
                     children=[
-                        html.H4("Open Positions"),
-                        html.P(id="positions-display", className="metric-value neutral"),
+                        html.H4("Risk-Free Return (Benchmark)"),
+                        html.P(f"{benchmark_return:.2f}%", className="metric-value neutral"),
                     ]
                 ),
                 html.Div(
                     className="metric-card",
                     children=[
-                        html.H4("Risk-Free Return (Benchmark)"),
-                        html.P(f"{benchmark_return:.2f}%", className="metric-value neutral"),
+                        html.H4("Risk of Ruin"),
+                        html.P(id="risk-display", className="metric-value neutral"),
                     ]
                 ),
+                # Open Positions Details (spans all columns)
+                html.Div(
+                    className="positions-container",
+                    children=[
+                        html.Div(
+                            className="positions-heading",
+                            children=[
+                                html.H3("Open Positions Details"),
+                                html.Div(id="positions-summary")
+                            ]
+                        ),
+                        html.Div(id="positions-details")
+                    ]
+                )
             ]
         ),
 
@@ -488,31 +702,66 @@ app.layout = html.Div(
     ]
 )
 
-# Callback: update strategy data with PNL color
+# Callback: update strategy data with PNL color and Risk of Ruin based on strategy_returns
 @app.callback(
     [Output("equity-display", "children"),
      Output("pnl-display", "children"),
      Output("pnl-display", "className"),
-     Output("positions-display", "children")],
+     Output("risk-display", "children"),
+     Output("risk-display", "className"),
+     Output("positions-details", "children"),
+     Output("positions-summary", "children")],
     [Input("interval", "n_intervals")]
 )
 def update_strategy_data(n):
-    global current_balance, current_pnl, open_positions
+    global current_balance, current_pnl, open_positions, strategy_returns
     
     equity = f"${current_balance:.2f}"
     pnl = f"${current_pnl:.2f}"
     
-    # Determine PNL class based on value
+    # Determine PNL class based on current PNL
     if current_pnl > 0:
         pnl_class = "metric-value positive"
     elif current_pnl < 0:
         pnl_class = "metric-value negative"
     else:
         pnl_class = "metric-value neutral"
-        
-    positions = f"{len(open_positions)} Open Positions"
     
-    return equity, pnl, pnl_class, positions
+    # Calculate Risk of Ruin based on strategy returns
+    risk = calculate_risk_of_ruin_from_returns(strategy_returns)
+    risk_str = f"{risk:.2f}%"
+    if risk < 10:
+        risk_class = "metric-value positive"
+    elif risk < 30:
+        risk_class = "metric-value neutral"
+    else:
+        risk_class = "metric-value negative"
+    
+    # Generate positions table with the most valuable information
+    positions_table = generate_positions_table(open_positions)
+    
+    # Create positions summary badges with proper type conversion
+    total_profit = sum(float(pos.get("unrealizedPL", 0)) 
+                      for pos in open_positions 
+                      if isinstance(pos.get("unrealizedPL", 0), (int, float, str)) 
+                      and float(pos.get("unrealizedPL", 0)) > 0)
+    
+    total_loss = sum(float(pos.get("unrealizedPL", 0)) 
+                    for pos in open_positions 
+                    if isinstance(pos.get("unrealizedPL", 0), (int, float, str)) 
+                    and float(pos.get("unrealizedPL", 0)) < 0)
+    
+    positions_count = len(open_positions)
+    if positions_count == 0:
+        positions_summary = html.Span("No open positions")
+    else:
+        positions_summary = html.Div([
+            html.Span(f"{positions_count} Position{'s' if positions_count > 1 else ''} | ", style={"marginRight": "5px"}),
+            html.Span(f"Profit: ${total_profit:.2f}", className="position-badge profit", style={"marginRight": "10px"}),
+            html.Span(f"Loss: ${total_loss:.2f}", className="position-badge loss")
+        ])
+    
+    return equity, pnl, pnl_class, risk_str, risk_class, positions_table, positions_summary
 
 # Callback: kill switch to close all trades and update status
 @app.callback(
