@@ -10,6 +10,7 @@ import oandapyV20
 import numpy as np
 import pandas as pd
 from datetime import datetime
+import main
 
 access_token = os.getenv('access_token')
 account_id = os.getenv('account_id')
@@ -167,6 +168,24 @@ app.index_string = '''
                 margin-bottom: 15px;
             }
             
+            
+            .additional-metrics-container {
+                background-color: var(--card-bg);
+                border-radius: 8px;
+                padding: 20px;
+                text-align: center;
+            }
+            
+            .additional-metrics-container:hover {
+                transform: translateY(-5px);
+            }
+            
+            .metric-card h4 {
+                color: var(--primary);
+                font-size: 1.1rem;
+                margin-bottom: 15px;
+            }
+            
             .metric-value {
                 font-size: 1.8rem;
                 font-weight: bold;
@@ -185,6 +204,7 @@ app.index_string = '''
             }
             
             .kill-switch-container {
+                margin-top: 20px;
                 text-align: center;
                 margin-bottom: 25px;
             }
@@ -412,8 +432,7 @@ current_pnl = 0
 current_balance = get_current_balance()
 initial_balance = current_balance  # Record the initial balance
 open_positions = []
-kill_switch_triggered = False  # Track if the Kill Switch has been activated
-
+kill_switch_triggered = False # Initialize the kill_switch_triggered flag
 # Function to calculate Risk of Ruin based on maximum drawdown
 def calculate_max_drawdown(returns):
     if not returns:
@@ -438,9 +457,9 @@ def calculate_ratios(returns, timestamps, risk_free_rate=0.02, max_drawdown=0.0)
             'Calmar Ratio': 0.0,
             'Sortino Ratio': 0.0
         }
-    # Compute time delta
+
     total_seconds = (timestamps.iloc[-1] - timestamps.iloc[0]).total_seconds()
-    total_years = total_seconds / (365.25 * 24 * 60 * 60)  # Convert seconds to years
+    total_years = total_seconds / (365.25 * 24 * 60 * 60)
 
     if total_years == 0:
         raise ValueError("Time span too short for annualized calculation.")
@@ -448,10 +467,14 @@ def calculate_ratios(returns, timestamps, risk_free_rate=0.02, max_drawdown=0.0)
     # Annualization factor based on irregular intervals
     annual_factor = np.sqrt(len(returns) / total_years)
 
-    # Sharpe Ratio
     risk_free_per_trade = (1 + risk_free_rate) ** (1 / len(returns) * total_years) - 1
     excess_returns = returns - risk_free_per_trade
-    sharpe_ratio = (excess_returns.mean() / returns.std()) * annual_factor
+    
+    # Sharpe Ratio
+    if returns.std() == 0:
+        sharpe_ratio = 0.0
+    else:
+        sharpe_ratio = (excess_returns.mean() / returns.std()) * annual_factor
 
     # Annualized Return
     cumulative_return = (returns + 1).prod() - 1
@@ -460,14 +483,13 @@ def calculate_ratios(returns, timestamps, risk_free_rate=0.02, max_drawdown=0.0)
     # Annualized Volatility
     annualized_volatility = returns.std() * annual_factor
 
-
     # Calmar Ratio
     calmar_ratio = annualized_return / max_drawdown if max_drawdown != 0 else np.nan
 
     # Sortino Ratio
     downside_returns = excess_returns[excess_returns < 0]
     downside_volatility = downside_returns.std() * annual_factor
-    sortino_ratio = (annualized_return - risk_free_rate) / downside_volatility if downside_volatility != 0 else np.nan
+    sortino_ratio = (annualized_return - risk_free_rate) / downside_volatility if downside_volatility > 0 else np.nan
 
     return {
         'Sharpe Ratio': sharpe_ratio,
@@ -476,7 +498,7 @@ def calculate_ratios(returns, timestamps, risk_free_rate=0.02, max_drawdown=0.0)
         'Calmar Ratio': calmar_ratio,
         'Sortino Ratio': sortino_ratio,
     }
-
+    
 # Lists to store returns over time
 strategy_returns = []  # List to store strategy returns (percentage values)
 timestamps = []  # List to store corresponding timestamps
@@ -486,7 +508,7 @@ benchmark_return = (running_strategy["risk_free_rate"] / 365) * 100  # Daily ris
 def update_data():
     global current_balance, current_pnl, open_positions, strategy_returns, timestamps, kill_switch_triggered
     while True:
-        if kill_switch_triggered:  # Stop updating data if Kill Switch is triggered
+        if kill_switch_triggered: # Stop updating data if Kill Switch is triggered
             print("Kill Switch triggered. Stopping strategy updates.")
             break
         try:
@@ -684,7 +706,7 @@ app.layout = html.Div(
                 html.Div(
                     className="metric-card",
                     children=[
-                        html.H4("Risk-Free Return (Benchmark)"),
+                        html.H4("Risk-Free Return"),
                         html.P(f"{benchmark_return:.2f}%", className="metric-value neutral"),
                     ]
                 ),
@@ -695,23 +717,24 @@ app.layout = html.Div(
                         html.P(id="risk-display", className="metric-value neutral"),
                     ]
                 ),
-                # Additional metrics can be added here
-                html.Div(id="additional-metrics-container", className="metrics-container"),
+            ]
+        ),
+        
+        # Additional Metrics Container
+        html.Div(id="additional-metrics-container"),
 
-                # Open Positions Details (spans all columns)
+        # Open Positions Details (spans all columns)
+        html.Div(
+            className="positions-container",
+            children=[
                 html.Div(
-                    className="positions-container",
+                    className="positions-heading",
                     children=[
-                        html.Div(
-                            className="positions-heading",
-                            children=[
-                                html.H3("Open Positions Details"),
-                                html.Div(id="positions-summary")
-                            ]
-                        ),
-                        html.Div(id="positions-details")
+                        html.H3("Open Positions Details"),
+                        html.Div(id="positions-summary")
                     ]
-                )
+                ),
+                html.Div(id="positions-details")
             ]
         ),
 
@@ -766,7 +789,7 @@ app.layout = html.Div(
      Output("risk-display", "className"),
      Output("positions-details", "children"),
      Output("positions-summary", "children"),
-    Output("additional-metrics-container", "children")],  # Add this output
+     Output("additional-metrics-container", "children")],  
 
     [Input("interval", "n_intervals")]
 )
@@ -799,7 +822,7 @@ def update_strategy_data(n):
         all_ratios = {}
         if len(strategy_returns) > 1 and len(timestamps) > 1:
             all_ratios = calculate_ratios(
-                pd.Series(strategy_returns/100), 
+                pd.Series([r/100 for r in strategy_returns]), 
                 pd.Series([datetime.fromtimestamp(ts) for ts in timestamps]), 
                 risk_free_rate=running_strategy["risk_free_rate"],
                 max_drawdown=risk/100
@@ -819,47 +842,55 @@ def update_strategy_data(n):
         calmar_ratio = all_ratios['Calmar Ratio']
         sortino_ratio = all_ratios['Sortino Ratio']
         
-        # Update metrics container with additional metrics
-        additional_metrics = [
-            html.Div(
-                className="metric-card",
-                children=[
-                    html.H4("Sharpe Ratio"),
-                    html.P(f"{sharpe_ratio:.2f}", className="metric-value " + ("positive" if sharpe_ratio > 1 else "neutral" if sharpe_ratio > 0 else "negative"))
-                ]
-            ),
-            html.Div(
-                className="metric-card",
-                children=[
-                    html.H4("Ann. Return"),
-                    html.P(f"{annualized_return*100:.2f}%", className="metric-value " + ("positive" if annualized_return > 0 else "negative"))
-                ]
-            ),
-            html.Div(
-                className="metric-card",
-                children=[
-                    html.H4("Ann. Volatility"),
-                    html.P(f"{annualized_volatility*100:.2f}%", className="metric-value " + ("positive" if annualized_volatility < 0.1 else "neutral" if annualized_volatility < 0.2 else "negative"))
-                ]
-            ),
-            html.Div(
-                className="metric-card",
-                children=[
-                    html.H4("Calmar Ratio"),
-                    html.P(f"{calmar_ratio:.2f}" if not np.isnan(calmar_ratio) else "N/A", className="metric-value " + ("positive" if calmar_ratio > 2 else "neutral" if calmar_ratio > 1 else "negative"))
-                ]
-            ),
-            html.Div(
-                className="metric-card",
-                children=[
-                    html.H4("Sortino Ratio"),
-                    html.P(f"{sortino_ratio:.2f}" if not np.isnan(sortino_ratio) else "N/A", className="metric-value " + ("positive" if sortino_ratio > 1 else "neutral" if sortino_ratio > 0 else "negative"))
-                ]
-            )
-        ]
+        # Create additional metrics cards
+        additional_metrics = html.Div(
+            style={
+                "display": "grid", 
+                "gridTemplateColumns": "repeat(5, 1fr)", 
+                "gap": "20px",
+                "marginBottom": "25px"
+            },
+            children=[
+                html.Div(
+                    className="metric-card",
+                    children=[
+                        html.H4("Sharpe Ratio"),
+                        html.P(f"{sharpe_ratio:.2f}", className="metric-value " + ("positive" if sharpe_ratio > 1 else "neutral" if sharpe_ratio > 0 else "negative"))
+                    ]
+                ),
+                html.Div(
+                    className="metric-card",
+                    children=[
+                        html.H4("Ann. Return"),
+                        html.P(f"{annualized_return*100:.2f}%", className="metric-value " + ("positive" if annualized_return > 0 else "negative"))
+                    ]
+                ),
+                html.Div(
+                    className="metric-card",
+                    children=[
+                        html.H4("Ann. Volatility"),
+                        html.P(f"{annualized_volatility*100:.2f}%", className="metric-value " + ("positive" if annualized_volatility < 0.1 else "neutral" if annualized_volatility < 0.2 else "negative"))
+                    ]
+                ),
+                html.Div(
+                    className="metric-card",
+                    children=[
+                        html.H4("Calmar Ratio"),
+                        html.P(f"{calmar_ratio:.2f}" if not np.isnan(calmar_ratio) else "N/A", className="metric-value " + ("positive" if calmar_ratio > 2 else "neutral" if calmar_ratio > 1 else "negative"))
+                    ]
+                ),
+                html.Div(
+                    className="metric-card",
+                    children=[
+                        html.H4("Sortino Ratio"),
+                        html.P(f"{sortino_ratio:.2f}" if not np.isnan(sortino_ratio) else "N/A", className="metric-value " + ("positive" if sortino_ratio > 1 else "neutral" if sortino_ratio > 0 else "negative"))
+                    ]
+                )
+            ]
+        )
     except Exception as e:
         print(f"Error calculating ratios: {e}")
-        additional_metrics = []
+        additional_metrics = html.Div()  # Empty div if error occurs
 
     
     
@@ -972,4 +1003,4 @@ def update_performance_chart(time_range, n):
 
 # Run the Dash app
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, use_reloader=False)
