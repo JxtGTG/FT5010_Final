@@ -506,11 +506,12 @@ benchmark_return = (running_strategy["risk_free_rate"] / 365) * 100  # Daily ris
 
 # Update data function
 def update_data():
-    global current_balance, current_pnl, open_positions, strategy_returns, timestamps, kill_switch_triggered
+    global current_balance, current_pnl, open_positions, strategy_returns, timestamps
+    # global kill_switch_triggered
     while True:
-        if kill_switch_triggered: # Stop updating data if Kill Switch is triggered
-            print("Kill Switch triggered. Stopping strategy updates.")
-            break
+        # if kill_switch_triggered: # Stop updating data if Kill Switch is triggered
+        #     print("Kill Switch triggered. Stopping strategy updates.")
+        #     break
         try:
             # Update balance and calculate return
             current_balance = get_current_balance()
@@ -635,6 +636,12 @@ def generate_positions_table(positions):
 app.layout = html.Div(
     className="container",
     children=[
+        dcc.ConfirmDialog(
+            id='close-trades-dialog',
+            message='All trades have been closed successfully!',
+            displayed=False,
+        ),
+        
         html.Div(
             className="dashboard-header",
             children=[
@@ -929,21 +936,37 @@ def update_strategy_data(n):
     [Input("kill-switch", "n_clicks")]
 )
 def kill_switch(n_clicks):
-    global kill_switch_triggered, open_positions
-    
-    if n_clicks > 0:
-        kill_switch_triggered = True
-        close_all_trades(client, account_id)  # Close all trades
-        open_positions = []  # Reset open positions to empty
-        return ("Kill Switch Triggered: All Trades Closed", 
-                "kill-switch triggered", 
-                "status-indicator status-inactive", 
-                "Strategy Stopped")
+    # global kill_switch_triggered
+    global open_positions
+    # global open_positions   
+    if n_clicks > 0 and n_clicks is not None:
+        try: 
+            # kill_switch_triggered = True
+            close_all_trades(client, account_id)  # Close all trades
+            open_positions = []  # Reset open positions to empty
+            return ("Kill Switch: Close All Trades", 
+                    "kill-switch", 
+                    "status-indicator", 
+                    "Strategy Active")
+        except Exception as e:
+            print(f"Error closing trades: {e}")
     
     return ("Kill Switch: Close All Trades", 
             "kill-switch", 
             "status-indicator", 
             "Strategy Active")
+
+@app.callback(
+    Output("close-trades-dialog", "displayed"),
+    [Input("kill-switch", "n_clicks")]
+)
+def display_confirmation(n_clicks):
+    # Display confirmation dialog if the kill switch is clicked
+    if n_clicks is not None and n_clicks > 0:
+        changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+        if 'kill-switch' in changed_id:
+            return True
+    return False
 
 # Callback: update performance chart based on time range
 @app.callback(
