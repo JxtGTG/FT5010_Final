@@ -40,10 +40,10 @@ def run_strategy():
     instruments = ['EUR_USD', 'GBP_USD', 'USD_JPY', 'AUD_USD', 'USD_CAD']
     lookback_count = 200         # Number of historical candles to retrieve
     stma_period = 20              # Short-term moving average period
-    ltma_period = 40             # Long-term moving average period
+    ltma_period = 45              # Long-term moving average period
     granularity = 'H1'           # Candle granularity
-    rsi_period = 30
-    stop_loss_level = 0.05  # Stop loss percentage (5% of the current price)            
+    rsi_period = 20
+    stop_loss_level = 0.03  # Stop loss percentage (3% of the current price)            
 
     # Get the initial account balance
     opening_balance = get_current_balance()
