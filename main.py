@@ -39,11 +39,11 @@ def run_strategy():
     # Define the instruments (5 currency pairs)
     instruments = ['EUR_USD', 'GBP_USD', 'USD_JPY', 'AUD_USD', 'USD_CAD']
     lookback_count = 200         # Number of historical candles to retrieve
-    stma_period = 10              # Short-term moving average period
-    ltma_period = 45             # Long-term moving average period
+    stma_period = 20              # Short-term moving average period
+    ltma_period = 40             # Long-term moving average period
     granularity = 'H1'           # Candle granularity
-    rsi_period = 10
-    stop_loss_percentage = 0.01  # Stop loss percentage (1% of the current price)            
+    rsi_period = 30
+    stop_loss_level = 0.05  # Stop loss percentage (5% of the current price)            
 
     # Get the initial account balance
     opening_balance = get_current_balance()
@@ -73,7 +73,7 @@ def run_strategy():
         rsi_period=rsi_period
     )
 
-    def find_quantities_and_trade(trade_directions, stop_loss_percentage=0.01):
+    def find_quantities_and_trade(trade_directions, stop_loss_level=0.05):
         """
         Calculate order parameters and place orders based on the trading directions for each instrument,
         while recording each instrument's order parameters in the open_trade_params dictionary for later monitoring.
@@ -82,7 +82,7 @@ def run_strategy():
         {"EUR_USD": "BUY", "GBP_USD": "SELL", ...}
         """
         global inposition, open_trade_params
-        orders_params = get_quantities(instruments, trade_directions, stop_loss_percentage)
+        orders_params = get_quantities(instruments, trade_directions, stop_loss_level)
         if orders_params is None or len(orders_params) == 0:
             print("Failed to compute order parameters, abandoning trade")
             return
@@ -113,7 +113,7 @@ def run_strategy():
                     print("No signal generated")
                 else:
                     print(f"Trading opportunity detected: {trade_directions}")
-                    find_quantities_and_trade(trade_directions, stop_loss_percentage)
+                    find_quantities_and_trade(trade_directions, stop_loss_level)
 
             # If positions are open, monitor each instrument's position individually
             if inposition:
