@@ -96,34 +96,82 @@ def get_current_balance():
     return None
 
 
-def get_quantities(instruments, trade_directions, stop_loss_percentage = 0.01):
+def get_quantities(instruments, trade_directions, rsi_dict, rsi_weight_param=1):
     """
-    Calculate the take profit price, stop loss price, and position size in bulk for each currency pair
-    based on the current prices and preset percentages.
+    Calculate the take profit price, stop loss price, and dynamic position size for each currency pair
+    in bulk based on current prices, available account funds, preset percentages, and each pair's RSI data.
 
     Parameters:
       instruments: A list of currency pairs (must be 5 pairs).
-      trade_directions: A dictionary where keys are instruments and values are "BUY" or "SELL".
+      trade_directions: A dictionary where keys are currency pairs and values are "BUY" or "SELL", e.g.:
+          {
+              "EUR_USD": "BUY",
+              "GBP_USD": "SELL",
+              "USD_JPY": "BUY",
+              "AUD_USD": "BUY",
+              "USD_CAD": "SELL"
+          }
+      rsi_dict: A dictionary where keys are currency pairs and values are the corresponding RSI values, e.g.:
+          {
+              "EUR_USD": 65,
+              "GBP_USD": 75,
+              "USD_JPY": 60,
+              "AUD_USD": 68,
+              "USD_CAD": 72
+          }
+      rsi_weight_param: RSI weighting parameter (default is 1) used to adjust the weight distribution.
 
-    For each instrument, calculation is as follows:
-      - If trade direction is "BUY": take profit price = current price * (1 + 0.01),
-        stop loss price = current price * (1 - 0.01)
-      - If trade direction is "SELL": take profit price = current price * (1 - 0.01),
-        stop loss price = current price * (1 + 0.01)
-      - The position size is determined by the quote currency:
-          If the pair contains "USD", size = 100000; if it contains "JPY", size = 50000;
-          For "SELL" trades, the position size is negative.
+    Calculation logic:
+      - First, obtain current prices for all currency pairs and the available account funds.
+      - For each currency pair with a BUY or SELL signal, calculate the weight using:
+            weight = max(70 - current RSI, 0) ** rsi_weight_param.
+      - For BUY (or SELL) signals, allocate funds proportionally based on the weight:
+            allocated funds = available cash * (weight of pair / sum of weights for all BUY or SELL pairs).
+      - If the trade direction is "BUY":
+            - Take profit price = current price * (1 + 0.01)
+            - Stop loss price = current price * (1 - 0.01)
+            - Position size = allocated funds / current price (rounded to an integer)
+      - If the trade direction is "SELL":
+            - Take profit price = current price * (1 - 0.01)
+            - Stop loss price = current price * (1 + 0.01)
+            - Position size = - (allocated funds / current price) (rounded to an integer, negative indicates a sell)
 
     Returns:
-      A dictionary in the format {instrument: (stop_loss_price, take_profit_price, position_size)}.
+      A dictionary in the format {currency_pair: (stop_loss_price, take_profit_price, position_size)}.
+      If the parameters for a given currency pair cannot be computed, that pair is skipped.
     """
     prices = get_current_prices(instruments)
     if prices is None:
         print("Unable to obtain current prices; cannot compute order parameters")
         return None
 
+    available_cash = get_current_balance()
+    if available_cash is None:
+        print("Unable to obtain account balance; cannot compute order parameters")
+        return None
+
     take_profit_percentage = 0.01  # 1%
+    stop_loss_percentage = 0.01      # 1%
     quantities = {}
+
+    # Calculate weights separately for BUY and SELL signals.
+    buy_weights = {}
+    sell_weights = {}
+    for inst in instruments:
+        direction = trade_directions.get(inst)
+        if inst not in rsi_dict:
+            print(f"{inst} is missing RSI data")
+            continue
+        current_rsi = rsi_dict[inst]
+        weight = max(70 - current_rsi, 0) ** rsi_weight_param
+        if direction == "BUY":
+            buy_weights[inst] = weight
+        elif direction == "SELL":
+            sell_weights[inst] = weight
+        else:
+            print(f"{inst} has an invalid trade direction")
+    total_buy_weight = sum(buy_weights.values()) if buy_weights else 0
+    total_sell_weight = sum(sell_weights.values()) if sell_weights else 0
 
     for inst in instruments:
         current_price = prices.get(inst)
@@ -136,28 +184,25 @@ def get_quantities(instruments, trade_directions, stop_loss_percentage = 0.01):
         if direction == "BUY":
             take_profit_price = round(current_price * (1 + take_profit_percentage), precision)
             stop_loss_price = round(current_price * (1 - stop_loss_percentage), precision)
+            if total_buy_weight > 0:
+                allocation = available_cash * (buy_weights.get(inst, 0) / total_buy_weight)
+            else:
+                allocation = 0
+            quantity = round(allocation / current_price, 0)
         elif direction == "SELL":
             take_profit_price = round(current_price * (1 - take_profit_percentage), precision)
             stop_loss_price = round(current_price * (1 + stop_loss_percentage), precision)
+            if total_sell_weight > 0:
+                allocation = available_cash * (sell_weights.get(inst, 0) / total_sell_weight)
+            else:
+                allocation = 0
+            quantity = -round(allocation / current_price, 0)
         else:
             print(f"{inst} has an invalid trade direction")
             continue
 
-        # Determine position size based on quote currency
-        trade_currency = inst[4:]
-        if "USD" in trade_currency:
-            position_size = 100000
-        elif "JPY" in trade_currency:
-            position_size = 50000
-        else:
-            print(f"{inst} does not support the quote currency")
-            continue
-
-        if direction == "SELL":
-            position_size = -position_size
-
-        quantities[inst] = (stop_loss_price, take_profit_price, position_size)
-        print(f"{inst} Calculation result: StopLoss={stop_loss_price}, TakeProfit={take_profit_price}, Quantity={position_size}")
+        quantities[inst] = (stop_loss_price, take_profit_price, quantity)
+        print(f"{inst} Calculation result: StopLoss={stop_loss_price}, TakeProfit={take_profit_price}, Quantity={quantity}")
 
     return quantities
 

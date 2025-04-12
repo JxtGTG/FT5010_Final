@@ -8,6 +8,8 @@ It supports multiple currency pairs. The signal generation logic for each pair i
   - "BUY" condition: short SMA > long SMA, RSI < 70, and current price > short EMA.
   - "SELL" condition: short SMA < long SMA or RSI > 70.
   - Otherwise, return "HOLD".
+
+Additionally, this version returns the latest computed RSI along with the signal.
 """
 
 import numpy as np
@@ -95,7 +97,7 @@ class LiveStrategy:
 
     def update_signal(self):
         """
-        For each currency pair, generate a live trading signal based on the latest historical data.
+        For each currency pair, generate a live trading signal based on the latest historical data, along with the latest RSI.
         
         For each instrument:
           - Calculate short-term SMA, long-term SMA, short-term EMA, and RSI.
@@ -104,13 +106,13 @@ class LiveStrategy:
           - Otherwise, "HOLD".
         
         Returns:
-          A dictionary in the format {instrument: signal}.
+          A dictionary in the format {instrument: {"signal": signal, "rsi": latest_rsi}}.
         """
-        signals = {}
+        results = {}
         for inst in self.instruments:
             close_prices = self.fetch_candlestick_data(inst)
             if close_prices is None:
-                signals[inst] = None
+                results[inst] = {"signal": None, "rsi": None}
                 continue
             
             price_series = pd.Series(close_prices)
@@ -146,9 +148,9 @@ class LiveStrategy:
             
             print(f"[{datetime.now()}] {inst} - short_SMA: {short_sma:.5f}, long_SMA: {long_sma:.5f}, "
                   f"short_EMA: {short_ema:.5f}, RSI: {rsi:.2f}, Price: {current_price:.5f}, Signal: {signal}")
-            signals[inst] = signal
+            results[inst] = {"signal": signal, "rsi": rsi}
         
-        return signals
+        return results
 
 # Test section
 if __name__ == "__main__":
@@ -157,7 +159,7 @@ if __name__ == "__main__":
     strategy = LiveStrategy(instruments=instruments, lookback_count=200, stma_period=10, ltma_period=45, rsi_period=10)
     
     while True:
-        signals = strategy.update_signal()
-        # Based on the returned signals, you may add order execution logic or notifications
-        print(f"Current signals: {signals}")
+        output = strategy.update_signal()
+        # Print the current signals and RSI values
+        print(f"Current output: {output}")
         time.sleep(60)  # Update signals every 60 seconds
