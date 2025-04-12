@@ -96,7 +96,7 @@ def get_current_balance():
     return None
 
 
-def get_quantities(instruments, trade_directions):
+def get_quantities(instruments, trade_directions, stop_loss_percentage = 0.01):
     """
     Calculate the take profit price, stop loss price, and position size in bulk for each currency pair
     based on the current prices and preset percentages.
@@ -123,7 +123,6 @@ def get_quantities(instruments, trade_directions):
         return None
 
     take_profit_percentage = 0.01  # 1%
-    stop_loss_percentage = 0.01      # 1%
     quantities = {}
 
     for inst in instruments:
