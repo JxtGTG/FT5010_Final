@@ -129,11 +129,11 @@ def get_quantities(instruments, trade_directions, rsi_dict, rsi_weight_param=1):
             allocated funds = available cash * (weight of pair / sum of weights for all BUY or SELL pairs).
       - If the trade direction is "BUY":
             - Take profit price = current price * (1 + 0.01)
-            - Stop loss price = current price * (1 - 0.01)
+            - Stop loss price = current price * (1 - 0.005)
             - Position size = allocated funds / current price (rounded to an integer)
       - If the trade direction is "SELL":
             - Take profit price = current price * (1 - 0.01)
-            - Stop loss price = current price * (1 + 0.01)
+            - Stop loss price = current price * (1 + 0.005)
             - Position size = - (allocated funds / current price) (rounded to an integer, negative indicates a sell)
 
     Returns:
