@@ -4,17 +4,17 @@
         "long_window": 40,
         "stop_loss_percentage": 0.5,
         "rsi_period": 10,
-        "Sharpe Ratio": 0.14490055581585431,
+        "Sharpe Ratio": 2.332913544323686,
         "rsi_weight_param": 1.0
     },
-    "best_ratio": 0.14490055581585431,
+    "best_ratio": 2.332913544323686,
     "all_results": [
         {
             "short_window": 10,
             "long_window": 20,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07525754673901065,
+            "Sharpe Ratio": 0.9966753861082099,
             "rsi_weight_param": 0.5
         },
         {
@@ -22,7 +22,7 @@
             "long_window": 20,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07979763643805853,
+            "Sharpe Ratio": 1.0736287879011046,
             "rsi_weight_param": 1.0
         },
         {
@@ -30,7 +30,7 @@
             "long_window": 20,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07789018072977444,
+            "Sharpe Ratio": 1.0444881788973714,
             "rsi_weight_param": 1.5
         },
         {
@@ -38,7 +38,7 @@
             "long_window": 20,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.01212190615181544,
+            "Sharpe Ratio": 0.08572730638350107,
             "rsi_weight_param": 0.5
         },
         {
@@ -46,7 +46,7 @@
             "long_window": 20,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.007914045891131523,
+            "Sharpe Ratio": 0.03314143425815743,
             "rsi_weight_param": 1.0
         },
         {
@@ -54,7 +54,7 @@
             "long_window": 20,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.000992817132927739,
+            "Sharpe Ratio": -0.07682823030370686,
             "rsi_weight_param": 1.5
         },
         {
@@ -62,7 +62,7 @@
             "long_window": 20,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.015603660389873543,
+            "Sharpe Ratio": 0.1288439696695846,
             "rsi_weight_param": 0.5
         },
         {
@@ -70,7 +70,7 @@
             "long_window": 20,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.010194465120683758,
+            "Sharpe Ratio": 0.059598695533204744,
             "rsi_weight_param": 1.0
         },
         {
@@ -78,7 +78,7 @@
             "long_window": 20,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.016347384174333898,
+            "Sharpe Ratio": 0.1399685523959118,
             "rsi_weight_param": 1.5
         },
         {
@@ -86,7 +86,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07525754673901065,
+            "Sharpe Ratio": 0.9966753861082099,
             "rsi_weight_param": 0.5
         },
         {
@@ -94,7 +94,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07979763643805853,
+            "Sharpe Ratio": 1.0736287879011046,
             "rsi_weight_param": 1.0
         },
         {
@@ -102,7 +102,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07789018072977444,
+            "Sharpe Ratio": 1.0444881788973714,
             "rsi_weight_param": 1.5
         },
         {
@@ -110,7 +110,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.01212190615181544,
+            "Sharpe Ratio": 0.08572730638350107,
             "rsi_weight_param": 0.5
         },
         {
@@ -118,7 +118,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.007914045891131523,
+            "Sharpe Ratio": 0.03314143425815743,
             "rsi_weight_param": 1.0
         },
         {
@@ -126,7 +126,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.000992817132927739,
+            "Sharpe Ratio": -0.07682823030370686,
             "rsi_weight_param": 1.5
         },
         {
@@ -134,7 +134,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.015603660389873543,
+            "Sharpe Ratio": 0.1288439696695846,
             "rsi_weight_param": 0.5
         },
         {
@@ -142,7 +142,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.010194465120683758,
+            "Sharpe Ratio": 0.059598695533204744,
             "rsi_weight_param": 1.0
         },
         {
@@ -150,7 +150,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.016347384174333898,
+            "Sharpe Ratio": 0.1399685523959118,
             "rsi_weight_param": 1.5
         },
         {
@@ -158,7 +158,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07525754673901065,
+            "Sharpe Ratio": 0.9966753861082099,
             "rsi_weight_param": 0.5
         },
         {
@@ -166,7 +166,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07979763643805853,
+            "Sharpe Ratio": 1.0736287879011046,
             "rsi_weight_param": 1.0
         },
         {
@@ -174,7 +174,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07789018072977444,
+            "Sharpe Ratio": 1.0444881788973714,
             "rsi_weight_param": 1.5
         },
         {
@@ -182,7 +182,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.01212190615181544,
+            "Sharpe Ratio": 0.08572730638350107,
             "rsi_weight_param": 0.5
         },
         {
@@ -190,7 +190,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.007914045891131523,
+            "Sharpe Ratio": 0.03314143425815743,
             "rsi_weight_param": 1.0
         },
         {
@@ -198,7 +198,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.000992817132927739,
+            "Sharpe Ratio": -0.07682823030370686,
             "rsi_weight_param": 1.5
         },
         {
@@ -206,7 +206,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.015603660389873543,
+            "Sharpe Ratio": 0.1288439696695846,
             "rsi_weight_param": 0.5
         },
         {
@@ -214,7 +214,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.010194465120683758,
+            "Sharpe Ratio": 0.059598695533204744,
             "rsi_weight_param": 1.0
         },
         {
@@ -222,7 +222,7 @@
             "long_window": 20,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.016347384174333898,
+            "Sharpe Ratio": 0.1399685523959118,
             "rsi_weight_param": 1.5
         },
         {
@@ -230,7 +230,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.01764476180274417,
+            "Sharpe Ratio": 0.15601424083584456,
             "rsi_weight_param": 0.5
         },
         {
@@ -238,7 +238,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.01425388110651379,
+            "Sharpe Ratio": 0.11229034773852074,
             "rsi_weight_param": 1.0
         },
         {
@@ -246,7 +246,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.01770620629417005,
+            "Sharpe Ratio": 0.15813804355962718,
             "rsi_weight_param": 1.5
         },
         {
@@ -254,7 +254,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.003225347199472231,
+            "Sharpe Ratio": -0.10736664061621239,
             "rsi_weight_param": 0.5
         },
         {
@@ -262,7 +262,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.009483986676045166,
+            "Sharpe Ratio": -0.1814412805509901,
             "rsi_weight_param": 1.0
         },
         {
@@ -270,7 +270,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.0085753753435827,
+            "Sharpe Ratio": -0.1697521412940476,
             "rsi_weight_param": 1.5
         },
         {
@@ -278,7 +278,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.10575420268304853,
+            "Sharpe Ratio": -1.1266865886332003,
             "rsi_weight_param": 0.5
         },
         {
@@ -286,7 +286,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.08966393785900313,
+            "Sharpe Ratio": -0.991120734047026,
             "rsi_weight_param": 1.0
         },
         {
@@ -294,7 +294,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.0889635386524655,
+            "Sharpe Ratio": -0.9838504794590239,
             "rsi_weight_param": 1.5
         },
         {
@@ -302,7 +302,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.01764476180274417,
+            "Sharpe Ratio": 0.15601424083584456,
             "rsi_weight_param": 0.5
         },
         {
@@ -310,7 +310,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.01425388110651379,
+            "Sharpe Ratio": 0.11229034773852074,
             "rsi_weight_param": 1.0
         },
         {
@@ -318,7 +318,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.01770620629417005,
+            "Sharpe Ratio": 0.15813804355962718,
             "rsi_weight_param": 1.5
         },
         {
@@ -326,7 +326,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.003225347199472231,
+            "Sharpe Ratio": -0.10736664061621239,
             "rsi_weight_param": 0.5
         },
         {
@@ -334,7 +334,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.009483986676045166,
+            "Sharpe Ratio": -0.1814412805509901,
             "rsi_weight_param": 1.0
         },
         {
@@ -342,7 +342,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.0085753753435827,
+            "Sharpe Ratio": -0.1697521412940476,
             "rsi_weight_param": 1.5
         },
         {
@@ -350,7 +350,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.10575420268304853,
+            "Sharpe Ratio": -1.1266865886332003,
             "rsi_weight_param": 0.5
         },
         {
@@ -358,7 +358,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.08966393785900313,
+            "Sharpe Ratio": -0.991120734047026,
             "rsi_weight_param": 1.0
         },
         {
@@ -366,7 +366,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.0889635386524655,
+            "Sharpe Ratio": -0.9838504794590239,
             "rsi_weight_param": 1.5
         },
         {
@@ -374,7 +374,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.01764476180274417,
+            "Sharpe Ratio": 0.15601424083584456,
             "rsi_weight_param": 0.5
         },
         {
@@ -382,7 +382,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.01425388110651379,
+            "Sharpe Ratio": 0.11229034773852074,
             "rsi_weight_param": 1.0
         },
         {
@@ -390,7 +390,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.01770620629417005,
+            "Sharpe Ratio": 0.15813804355962718,
             "rsi_weight_param": 1.5
         },
         {
@@ -398,7 +398,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.003225347199472231,
+            "Sharpe Ratio": -0.10736664061621239,
             "rsi_weight_param": 0.5
         },
         {
@@ -406,7 +406,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.009483986676045166,
+            "Sharpe Ratio": -0.1814412805509901,
             "rsi_weight_param": 1.0
         },
         {
@@ -414,7 +414,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": -0.0085753753435827,
+            "Sharpe Ratio": -0.1697521412940476,
             "rsi_weight_param": 1.5
         },
         {
@@ -422,7 +422,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.10575420268304853,
+            "Sharpe Ratio": -1.1266865886332003,
             "rsi_weight_param": 0.5
         },
         {
@@ -430,7 +430,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.08966393785900313,
+            "Sharpe Ratio": -0.991120734047026,
             "rsi_weight_param": 1.0
         },
         {
@@ -438,7 +438,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.0889635386524655,
+            "Sharpe Ratio": -0.9838504794590239,
             "rsi_weight_param": 1.5
         },
         {
@@ -446,7 +446,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07761850552142147,
+            "Sharpe Ratio": 1.0489945201575783,
             "rsi_weight_param": 0.5
         },
         {
@@ -454,7 +454,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.08392373376679892,
+            "Sharpe Ratio": 1.1576740637236203,
             "rsi_weight_param": 1.0
         },
         {
@@ -462,7 +462,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.09068875983067319,
+            "Sharpe Ratio": 1.278547294615321,
             "rsi_weight_param": 1.5
         },
         {
@@ -470,7 +470,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.02436166144887658,
+            "Sharpe Ratio": 0.2495408208179765,
             "rsi_weight_param": 0.5
         },
         {
@@ -478,7 +478,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.027573191999702488,
+            "Sharpe Ratio": 0.29442666489828023,
             "rsi_weight_param": 1.0
         },
         {
@@ -486,7 +486,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.031554244138685204,
+            "Sharpe Ratio": 0.35108446059543996,
             "rsi_weight_param": 1.5
         },
         {
@@ -494,7 +494,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.011701965423114757,
+            "Sharpe Ratio": -0.2061846299805489,
             "rsi_weight_param": 0.5
         },
         {
@@ -502,7 +502,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.013314607821838655,
+            "Sharpe Ratio": -0.2245283674943499,
             "rsi_weight_param": 1.0
         },
         {
@@ -510,7 +510,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.006833817439499072,
+            "Sharpe Ratio": -0.14773427338063222,
             "rsi_weight_param": 1.5
         },
         {
@@ -518,7 +518,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07761850552142147,
+            "Sharpe Ratio": 1.0489945201575783,
             "rsi_weight_param": 0.5
         },
         {
@@ -526,7 +526,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.08392373376679892,
+            "Sharpe Ratio": 1.1576740637236203,
             "rsi_weight_param": 1.0
         },
         {
@@ -534,7 +534,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.09068875983067319,
+            "Sharpe Ratio": 1.278547294615321,
             "rsi_weight_param": 1.5
         },
         {
@@ -542,7 +542,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.02436166144887658,
+            "Sharpe Ratio": 0.2495408208179765,
             "rsi_weight_param": 0.5
         },
         {
@@ -550,7 +550,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.027573191999702488,
+            "Sharpe Ratio": 0.29442666489828023,
             "rsi_weight_param": 1.0
         },
         {
@@ -558,7 +558,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.031554244138685204,
+            "Sharpe Ratio": 0.35108446059543996,
             "rsi_weight_param": 1.5
         },
         {
@@ -566,7 +566,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.011701965423114757,
+            "Sharpe Ratio": -0.2061846299805489,
             "rsi_weight_param": 0.5
         },
         {
@@ -574,7 +574,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.013314607821838655,
+            "Sharpe Ratio": -0.2245283674943499,
             "rsi_weight_param": 1.0
         },
         {
@@ -582,7 +582,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.006833817439499072,
+            "Sharpe Ratio": -0.14773427338063222,
             "rsi_weight_param": 1.5
         },
         {
@@ -590,7 +590,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07761850552142147,
+            "Sharpe Ratio": 1.0489945201575783,
             "rsi_weight_param": 0.5
         },
         {
@@ -598,7 +598,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.08392373376679892,
+            "Sharpe Ratio": 1.1576740637236203,
             "rsi_weight_param": 1.0
         },
         {
@@ -606,7 +606,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.09068875983067319,
+            "Sharpe Ratio": 1.278547294615321,
             "rsi_weight_param": 1.5
         },
         {
@@ -614,7 +614,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.02436166144887658,
+            "Sharpe Ratio": 0.2495408208179765,
             "rsi_weight_param": 0.5
         },
         {
@@ -622,7 +622,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.027573191999702488,
+            "Sharpe Ratio": 0.29442666489828023,
             "rsi_weight_param": 1.0
         },
         {
@@ -630,7 +630,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.031554244138685204,
+            "Sharpe Ratio": 0.35108446059543996,
             "rsi_weight_param": 1.5
         },
         {
@@ -638,7 +638,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.011701965423114757,
+            "Sharpe Ratio": -0.2061846299805489,
             "rsi_weight_param": 0.5
         },
         {
@@ -646,7 +646,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.013314607821838655,
+            "Sharpe Ratio": -0.2245283674943499,
             "rsi_weight_param": 1.0
         },
         {
@@ -654,7 +654,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.006833817439499072,
+            "Sharpe Ratio": -0.14773427338063222,
             "rsi_weight_param": 1.5
         },
         {
@@ -662,7 +662,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.0531684593017009,
+            "Sharpe Ratio": 0.6593909209104364,
             "rsi_weight_param": 0.5
         },
         {
@@ -670,7 +670,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.05416771537920014,
+            "Sharpe Ratio": 0.6759946307370341,
             "rsi_weight_param": 1.0
         },
         {
@@ -678,7 +678,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.05216398384187038,
+            "Sharpe Ratio": 0.6467444653742165,
             "rsi_weight_param": 1.5
         },
         {
@@ -686,7 +686,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.025921444418026997,
+            "Sharpe Ratio": 0.2736073080292466,
             "rsi_weight_param": 0.5
         },
         {
@@ -694,7 +694,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.023628325475335655,
+            "Sharpe Ratio": 0.2431799597887918,
             "rsi_weight_param": 1.0
         },
         {
@@ -702,7 +702,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.015238114659150223,
+            "Sharpe Ratio": 0.13172849840684198,
             "rsi_weight_param": 1.5
         },
         {
@@ -710,7 +710,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.032337182836739156,
+            "Sharpe Ratio": -0.4381746937179799,
             "rsi_weight_param": 0.5
         },
         {
@@ -718,7 +718,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.056996116707649355,
+            "Sharpe Ratio": -0.6893107516714133,
             "rsi_weight_param": 1.0
         },
         {
@@ -726,7 +726,7 @@
             "long_window": 30,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.03835616134957645,
+            "Sharpe Ratio": -0.5003095099761236,
             "rsi_weight_param": 1.5
         },
         {
@@ -734,7 +734,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.0531684593017009,
+            "Sharpe Ratio": 0.6593909209104364,
             "rsi_weight_param": 0.5
         },
         {
@@ -742,7 +742,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.05416771537920014,
+            "Sharpe Ratio": 0.6759946307370341,
             "rsi_weight_param": 1.0
         },
         {
@@ -750,7 +750,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.05216398384187038,
+            "Sharpe Ratio": 0.6467444653742165,
             "rsi_weight_param": 1.5
         },
         {
@@ -758,7 +758,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.025921444418026997,
+            "Sharpe Ratio": 0.2736073080292466,
             "rsi_weight_param": 0.5
         },
         {
@@ -766,7 +766,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.023628325475335655,
+            "Sharpe Ratio": 0.2431799597887918,
             "rsi_weight_param": 1.0
         },
         {
@@ -774,7 +774,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.015238114659150223,
+            "Sharpe Ratio": 0.13172849840684198,
             "rsi_weight_param": 1.5
         },
         {
@@ -782,7 +782,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.032337182836739156,
+            "Sharpe Ratio": -0.4381746937179799,
             "rsi_weight_param": 0.5
         },
         {
@@ -790,7 +790,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.056996116707649355,
+            "Sharpe Ratio": -0.6893107516714133,
             "rsi_weight_param": 1.0
         },
         {
@@ -798,7 +798,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.03835616134957645,
+            "Sharpe Ratio": -0.5003095099761236,
             "rsi_weight_param": 1.5
         },
         {
@@ -806,7 +806,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.0531684593017009,
+            "Sharpe Ratio": 0.6593909209104364,
             "rsi_weight_param": 0.5
         },
         {
@@ -814,7 +814,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.05416771537920014,
+            "Sharpe Ratio": 0.6759946307370341,
             "rsi_weight_param": 1.0
         },
         {
@@ -822,7 +822,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.05216398384187038,
+            "Sharpe Ratio": 0.6467444653742165,
             "rsi_weight_param": 1.5
         },
         {
@@ -830,7 +830,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.025921444418026997,
+            "Sharpe Ratio": 0.2736073080292466,
             "rsi_weight_param": 0.5
         },
         {
@@ -838,7 +838,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.023628325475335655,
+            "Sharpe Ratio": 0.2431799597887918,
             "rsi_weight_param": 1.0
         },
         {
@@ -846,7 +846,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.015238114659150223,
+            "Sharpe Ratio": 0.13172849840684198,
             "rsi_weight_param": 1.5
         },
         {
@@ -854,7 +854,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.032337182836739156,
+            "Sharpe Ratio": -0.4381746937179799,
             "rsi_weight_param": 0.5
         },
         {
@@ -862,7 +862,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.056996116707649355,
+            "Sharpe Ratio": -0.6893107516714133,
             "rsi_weight_param": 1.0
         },
         {
@@ -870,7 +870,7 @@
             "long_window": 30,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.03835616134957645,
+            "Sharpe Ratio": -0.5003095099761236,
             "rsi_weight_param": 1.5
         },
         {
@@ -878,7 +878,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07733732816342112,
+            "Sharpe Ratio": 1.040195777686935,
             "rsi_weight_param": 0.5
         },
         {
@@ -886,7 +886,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07326886313083292,
+            "Sharpe Ratio": 0.9753308264881201,
             "rsi_weight_param": 1.0
         },
         {
@@ -894,7 +894,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07700420652828772,
+            "Sharpe Ratio": 1.0387694114913826,
             "rsi_weight_param": 1.5
         },
         {
@@ -902,7 +902,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.054809629281269055,
+            "Sharpe Ratio": 0.6928557844055026,
             "rsi_weight_param": 0.5
         },
         {
@@ -910,7 +910,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.061280294664956346,
+            "Sharpe Ratio": 0.7979399844985539,
             "rsi_weight_param": 1.0
         },
         {
@@ -918,7 +918,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.05170183841157524,
+            "Sharpe Ratio": 0.6501758503164625,
             "rsi_weight_param": 1.5
         },
         {
@@ -926,7 +926,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.04919444003370508,
+            "Sharpe Ratio": -0.6116745373305816,
             "rsi_weight_param": 0.5
         },
         {
@@ -934,7 +934,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.06725626076901554,
+            "Sharpe Ratio": -0.784297709070551,
             "rsi_weight_param": 1.0
         },
         {
@@ -942,7 +942,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.07180071057662388,
+            "Sharpe Ratio": -0.8239314204946224,
             "rsi_weight_param": 1.5
         },
         {
@@ -950,7 +950,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07733732816342112,
+            "Sharpe Ratio": 1.040195777686935,
             "rsi_weight_param": 0.5
         },
         {
@@ -958,7 +958,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07326886313083292,
+            "Sharpe Ratio": 0.9753308264881201,
             "rsi_weight_param": 1.0
         },
         {
@@ -966,7 +966,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07700420652828772,
+            "Sharpe Ratio": 1.0387694114913826,
             "rsi_weight_param": 1.5
         },
         {
@@ -974,7 +974,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.054809629281269055,
+            "Sharpe Ratio": 0.6928557844055026,
             "rsi_weight_param": 0.5
         },
         {
@@ -982,7 +982,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.061280294664956346,
+            "Sharpe Ratio": 0.7979399844985539,
             "rsi_weight_param": 1.0
         },
         {
@@ -990,7 +990,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.05170183841157524,
+            "Sharpe Ratio": 0.6501758503164625,
             "rsi_weight_param": 1.5
         },
         {
@@ -998,7 +998,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.04919444003370508,
+            "Sharpe Ratio": -0.6116745373305816,
             "rsi_weight_param": 0.5
         },
         {
@@ -1006,7 +1006,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.06725626076901554,
+            "Sharpe Ratio": -0.784297709070551,
             "rsi_weight_param": 1.0
         },
         {
@@ -1014,7 +1014,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.07180071057662388,
+            "Sharpe Ratio": -0.8239314204946224,
             "rsi_weight_param": 1.5
         },
         {
@@ -1022,7 +1022,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07733732816342112,
+            "Sharpe Ratio": 1.040195777686935,
             "rsi_weight_param": 0.5
         },
         {
@@ -1030,7 +1030,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07326886313083292,
+            "Sharpe Ratio": 0.9753308264881201,
             "rsi_weight_param": 1.0
         },
         {
@@ -1038,7 +1038,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.07700420652828772,
+            "Sharpe Ratio": 1.0387694114913826,
             "rsi_weight_param": 1.5
         },
         {
@@ -1046,7 +1046,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.054809629281269055,
+            "Sharpe Ratio": 0.6928557844055026,
             "rsi_weight_param": 0.5
         },
         {
@@ -1054,7 +1054,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.061280294664956346,
+            "Sharpe Ratio": 0.7979399844985539,
             "rsi_weight_param": 1.0
         },
         {
@@ -1062,7 +1062,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.05170183841157524,
+            "Sharpe Ratio": 0.6501758503164625,
             "rsi_weight_param": 1.5
         },
         {
@@ -1070,7 +1070,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.04919444003370508,
+            "Sharpe Ratio": -0.6116745373305816,
             "rsi_weight_param": 0.5
         },
         {
@@ -1078,7 +1078,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.06725626076901554,
+            "Sharpe Ratio": -0.784297709070551,
             "rsi_weight_param": 1.0
         },
         {
@@ -1086,39 +1086,39 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": -0.07180071057662388,
-            "rsi_weight_param": 1.5
-        },
-        {
-            "short_window": 30,
-            "long_window": 40,
-            "stop_loss_percentage": 0.5,
-            "rsi_period": 10,
-            "Sharpe Ratio": 0.13820057285964849,
-            "rsi_weight_param": 0.5
-        },
-        {
-            "short_window": 30,
-            "long_window": 40,
-            "stop_loss_percentage": 0.5,
-            "rsi_period": 10,
-            "Sharpe Ratio": 0.14490055581585431,
-            "rsi_weight_param": 1.0
-        },
-        {
-            "short_window": 30,
-            "long_window": 40,
-            "stop_loss_percentage": 0.5,
-            "rsi_period": 10,
-            "Sharpe Ratio": 0.1348827839466383,
+            "Sharpe Ratio": -0.8239314204946224,
             "rsi_weight_param": 1.5
         },
         {
             "short_window": 30,
             "long_window": 40,
             "stop_loss_percentage": 0.5,
+            "rsi_period": 10,
+            "Sharpe Ratio": 2.183879093439937,
+            "rsi_weight_param": 0.5
+        },
+        {
+            "short_window": 30,
+            "long_window": 40,
+            "stop_loss_percentage": 0.5,
+            "rsi_period": 10,
+            "Sharpe Ratio": 2.332913544323686,
+            "rsi_weight_param": 1.0
+        },
+        {
+            "short_window": 30,
+            "long_window": 40,
+            "stop_loss_percentage": 0.5,
+            "rsi_period": 10,
+            "Sharpe Ratio": 2.129026498852689,
+            "rsi_weight_param": 1.5
+        },
+        {
+            "short_window": 30,
+            "long_window": 40,
+            "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.06896845092862353,
+            "Sharpe Ratio": 0.9051939790374744,
             "rsi_weight_param": 0.5
         },
         {
@@ -1126,7 +1126,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.06107671788838837,
+            "Sharpe Ratio": 0.7816683539056761,
             "rsi_weight_param": 1.0
         },
         {
@@ -1134,7 +1134,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.0566225026887463,
+            "Sharpe Ratio": 0.7151991485312762,
             "rsi_weight_param": 1.5
         },
         {
@@ -1142,7 +1142,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.023130317208738524,
+            "Sharpe Ratio": 0.23178331352385373,
             "rsi_weight_param": 0.5
         },
         {
@@ -1150,7 +1150,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.005757685260198834,
+            "Sharpe Ratio": 0.005926554682802814,
             "rsi_weight_param": 1.0
         },
         {
@@ -1158,7 +1158,7 @@
             "long_window": 40,
             "stop_loss_percentage": 0.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.009810405867800787,
+            "Sharpe Ratio": 0.05799431300241214,
             "rsi_weight_param": 1.5
         },
         {
@@ -1166,7 +1166,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.13820057285964849,
+            "Sharpe Ratio": 2.183879093439937,
             "rsi_weight_param": 0.5
         },
         {
@@ -1174,7 +1174,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.14490055581585431,
+            "Sharpe Ratio": 2.332913544323686,
             "rsi_weight_param": 1.0
         },
         {
@@ -1182,7 +1182,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.1348827839466383,
+            "Sharpe Ratio": 2.129026498852689,
             "rsi_weight_param": 1.5
         },
         {
@@ -1190,7 +1190,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.06896845092862353,
+            "Sharpe Ratio": 0.9051939790374744,
             "rsi_weight_param": 0.5
         },
         {
@@ -1198,7 +1198,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.06107671788838837,
+            "Sharpe Ratio": 0.7816683539056761,
             "rsi_weight_param": 1.0
         },
         {
@@ -1206,7 +1206,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.0566225026887463,
+            "Sharpe Ratio": 0.7151991485312762,
             "rsi_weight_param": 1.5
         },
         {
@@ -1214,7 +1214,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.023130317208738524,
+            "Sharpe Ratio": 0.23178331352385373,
             "rsi_weight_param": 0.5
         },
         {
@@ -1222,7 +1222,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.005757685260198834,
+            "Sharpe Ratio": 0.005926554682802814,
             "rsi_weight_param": 1.0
         },
         {
@@ -1230,7 +1230,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.0,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.009810405867800787,
+            "Sharpe Ratio": 0.05799431300241214,
             "rsi_weight_param": 1.5
         },
         {
@@ -1238,7 +1238,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.13820057285964849,
+            "Sharpe Ratio": 2.183879093439937,
             "rsi_weight_param": 0.5
         },
         {
@@ -1246,7 +1246,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.14490055581585431,
+            "Sharpe Ratio": 2.332913544323686,
             "rsi_weight_param": 1.0
         },
         {
@@ -1254,7 +1254,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 10,
-            "Sharpe Ratio": 0.1348827839466383,
+            "Sharpe Ratio": 2.129026498852689,
             "rsi_weight_param": 1.5
         },
         {
@@ -1262,7 +1262,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.06896845092862353,
+            "Sharpe Ratio": 0.9051939790374744,
             "rsi_weight_param": 0.5
         },
         {
@@ -1270,7 +1270,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.06107671788838837,
+            "Sharpe Ratio": 0.7816683539056761,
             "rsi_weight_param": 1.0
         },
         {
@@ -1278,7 +1278,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 20,
-            "Sharpe Ratio": 0.0566225026887463,
+            "Sharpe Ratio": 0.7151991485312762,
             "rsi_weight_param": 1.5
         },
         {
@@ -1286,7 +1286,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.023130317208738524,
+            "Sharpe Ratio": 0.23178331352385373,
             "rsi_weight_param": 0.5
         },
         {
@@ -1294,7 +1294,7 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.005757685260198834,
+            "Sharpe Ratio": 0.005926554682802814,
             "rsi_weight_param": 1.0
         },
         {
@@ -1302,30 +1302,26 @@
             "long_window": 40,
             "stop_loss_percentage": 1.5,
             "rsi_period": 30,
-            "Sharpe Ratio": 0.009810405867800787,
+            "Sharpe Ratio": 0.05799431300241214,
             "rsi_weight_param": 1.5
         }
     ],
     "final_train_metrics": {
-        "Sharpe Ratio": 0.14490055581585431,
-        "Annualized Return": 0.00013106775116034086,
-        "Annualized Volatility": 0.0009073342086647109,
+        "Sharpe Ratio": 2.332913544323686,
+        "Annualized Return": 0.7690617878242176,
+        "Annualized Volatility": 0.3210842466266238,
         "Final Accumulated Profit": 285.55999893726766,
-        "Maximum Drawdown": -0.007441423556567073,
-        "Calmar Ratio": 0.017613263129562524,
-        "Sortino Ratio": 0.1583274428546414,
-        "Treynor Ratio": 0.04270649672619406,
-        "Information Ratio": 0.009127877030813998
+        "Maximum Drawdown": -0.007441423556569404,
+        "Calmar Ratio": 103.34874530092807,
+        "Sortino Ratio": 2.5569738070469117
     },
     "final_test_metrics": {
-        "Sharpe Ratio": 0.10656439303380269,
-        "Annualized Return": 9.110615818341827e-05,
-        "Annualized Volatility": 0.000858401929870032,
+        "Sharpe Ratio": 0.810152954983552,
+        "Annualized Return": 0.26609875628236535,
+        "Annualized Volatility": 0.30376826347237323,
         "Final Accumulated Profit": 71.15607944358271,
-        "Maximum Drawdown": -0.006974162695747355,
-        "Calmar Ratio": 0.013063382969108566,
-        "Sortino Ratio": 0.11308024167081292,
-        "Treynor Ratio": 0.03215197019992603,
-        "Information Ratio": 0.006712925776775932
+        "Maximum Drawdown": -0.00697416269574358,
+        "Calmar Ratio": 38.154939580742614,
+        "Sortino Ratio": 0.8631707204981042
     }
 }
