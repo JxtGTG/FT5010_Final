@@ -151,7 +151,7 @@ def get_quantities(instruments, trade_directions, rsi_dict, rsi_weight_param=1):
         return None
 
     take_profit_percentage = 0.01  # 1%
-    stop_loss_percentage = 0.01      # 1%
+    stop_loss_percentage = 0.005      # 0.5%
     quantities = {}
 
     # Calculate weights separately for BUY and SELL signals.

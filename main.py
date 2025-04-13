@@ -32,18 +32,15 @@ client = oandapyV20.API(access_token=access_token, environment="practice")
 # Define the instruments (5 currency pairs)
 instruments = ['EUR_USD', 'GBP_USD', 'USD_JPY', 'AUD_USD', 'USD_CAD']
 lookback_count = 200          # Number of historical candles to retrieve
-stma_period = 10              # Short-term moving average period
-ltma_period = 45              # Long-term moving average period
-granularity = 'H1'            # Candle granularity
+stma_period = 30              # Short-term moving average period
+ltma_period = 40              # Long-term moving average period
+granularity = 'S5'            # Candle granularity
 rsi_period = 10               # RSI period
 rsi_weight_param = 1         # Weighting parameter for RSI in order quantity calculation
 
 # Get the initial account balance
 opening_balance = get_current_balance()
 
-# Default stop loss and risk-reward parameters for each instrument (set individually as needed)
-default_stoploss = 5         # Stop loss threshold
-default_risk_reward = 0.75     # Risk-reward ratio
 
 # Global variables indicating whether any positions are open and storing each instrument's order parameters.
 # Format: { "EUR_USD": (stop_loss_price, take_profit_price, quantity), ... }
