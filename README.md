@@ -1,6 +1,6 @@
 # 🚀 Forex Trading Bot
 
-A robust forex trading bot with real-time dashboard visualization for monitoring and analyzing the performance of trading strategies across multiple currency pairs.
+A forex trading bot with real-time dashboard visualization for monitoring and analyzing the performance of trading strategies across multiple currency pairs.
 
 
 ## 📋 Project Overview
