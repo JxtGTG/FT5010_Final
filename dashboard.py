@@ -457,62 +457,60 @@ def calculate_ratios(returns, timestamps, risk_free_rate=0.02, max_drawdown=0.0)
     if len(returns) < 2 or len(timestamps) < 2:
         return {
             'Sharpe Ratio': 0.0,
-            'Annualized Return': 0.0,
-            'Annualized Volatility': 0.0,
+            'Daily Return': 0.0,
+            'Daily Volatility': 0.0,
             'Calmar Ratio': 0.0,
             'Sortino Ratio': 0.0
         }
 
     total_seconds = (timestamps.iloc[-1] - timestamps.iloc[0]).total_seconds()
-    total_years = total_seconds / (365.25 * 24 * 60 * 60)
+    total_days = total_seconds / (24 * 60 * 60)
+    if total_days == 0:
+        raise ValueError("Time span too short for daily calculation.")
 
-    if total_years == 0:
-        raise ValueError("Time span too short for annualized calculation.")
+    n = len(returns)
+    rf_daily = (1 + risk_free_rate) ** (1 / 260) - 1  # 转为每日无风险利率
+    excess_returns = returns - rf_daily
 
-    # Annualization factor based on irregular intervals
-    annual_factor = np.sqrt(len(returns) / total_years)
-
-    risk_free_per_trade = (1 + risk_free_rate) ** (1 / len(returns) * total_years) - 1
-    excess_returns = returns - risk_free_per_trade
-    
-    # Sharpe Ratio
-    if returns.std() == 0:
+    # Sharpe Ratio (daily)
+    std = returns.std()
+    if std == 0:
         sharpe_ratio = 0.0
     else:
-        sharpe_ratio = (excess_returns.mean() / returns.std()) * annual_factor
+        sharpe_ratio = excess_returns.mean() / std
 
-    # Annualized Return
+    # Daily Return
     cumulative_return = (returns + 1).prod() - 1
-    annualized_return = (1 + cumulative_return) ** (1 / total_years) - 1
+    daily_return = (1 + cumulative_return) ** (1 / total_days) - 1
 
-    # Annualized Volatility
-    annualized_volatility = returns.std() * annual_factor
+    # Daily Volatility
+    daily_volatility = std
 
-    # Calmar Ratio
-    calmar_ratio = annualized_return / max_drawdown if max_drawdown != 0 else np.nan
+    # Calmar Ratio (daily return / max drawdown)
+    calmar_ratio = daily_return / max_drawdown if max_drawdown != 0 else np.nan
 
-    # Sortino Ratio
+    # Sortino Ratio (daily)
     downside_returns = excess_returns[excess_returns < 0]
-    downside_volatility = downside_returns.std() * annual_factor
-    sortino_ratio = (annualized_return - risk_free_rate) / downside_volatility if downside_volatility > 0 else np.nan
+    downside_vol = downside_returns.std()
+    sortino_ratio = (daily_return - rf_daily) / downside_vol if downside_vol > 0 else np.nan
 
     return {
         'Sharpe Ratio': sharpe_ratio,
-        'Annualized Return': annualized_return,
-        'Annualized Volatility': annualized_volatility,
+        'Daily Return': daily_return,
+        'Daily Volatility': daily_volatility,
         'Calmar Ratio': calmar_ratio,
         'Sortino Ratio': sortino_ratio,
     }
     
 # Lists to store returns over time
 strategy_returns = []  # List to store strategy returns (percentage values)
-real_returns = []
+equity_series = [initial_balance]
 timestamps = []  # List to store corresponding timestamps
 benchmark_return = (running_strategy["risk_free_rate"] / 365) * 100  # Daily risk-free rate converted to percentage
 
 # Update data function
 def update_data():
-    global current_balance, current_pnl, open_positions, strategy_returns, timestamps, real_returns
+    global current_balance, current_pnl, open_positions, strategy_returns, timestamps, equity_series
     global eurusd_prices, eurusd_returns, eurusd_timestamps, initial_eurusd_price, current_eurusd_return
     
     while True:
@@ -527,10 +525,10 @@ def update_data():
             
             # Modified return calculation: (unrealized PnL + current balance)/initial_balance
             strategy_return = ((current_balance + current_pnl - initial_balance) / initial_balance) * 100
-            real_return = ((current_balance - initial_balance) / initial_balance) * 100
+            cur_equity = current_balance + current_pnl
             # Append data for plotting and risk calculation
             strategy_returns.append(strategy_return)
-            real_returns.append(real_return)
+            equity_series.append(cur_equity)
             timestamps.append(time.time())  # Use Unix timestamp for accurate time filtering
             
             # Update EUR/USD data
@@ -876,7 +874,7 @@ def update_strategy_data(n):
         all_ratios = {}
         if len(strategy_returns) > 1 and len(timestamps) > 1:
             all_ratios = calculate_ratios(
-                pd.Series([r/100 for r in real_returns]), 
+                pd.Series(equity_series).pct_change(), 
                 pd.Series([datetime.fromtimestamp(ts) for ts in timestamps]), 
                 risk_free_rate=running_strategy["risk_free_rate"],
                 max_drawdown=risk/100
@@ -884,15 +882,15 @@ def update_strategy_data(n):
         else:
             all_ratios = {
                 'Sharpe Ratio': 0.0,
-                'Annualized Return': 0.0,
-                'Annualized Volatility': 0.0,
+                'Daily Return': 0.0,
+                'Daily Volatility': 0.0,
                 'Calmar Ratio': 0.0,
                 'Sortino Ratio': 0.0
             }
             
         sharpe_ratio = all_ratios['Sharpe Ratio']
-        annualized_return = all_ratios['Annualized Return']
-        annualized_volatility = all_ratios['Annualized Volatility']
+        daily_return = all_ratios['Daily Return']
+        daily_volatility = all_ratios['Daily Volatility']
         calmar_ratio = all_ratios['Calmar Ratio']
         sortino_ratio = all_ratios['Sortino Ratio']
         
@@ -908,35 +906,35 @@ def update_strategy_data(n):
                 html.Div(
                     className="metric-card",
                     children=[
-                        html.H4("Sharpe Ratio"),
+                        html.H4("Daily Sharpe Ratio"),
                         html.P(f"{sharpe_ratio:.2f}", className="metric-value " + ("positive" if sharpe_ratio > 1 else "neutral" if sharpe_ratio > 0 else "negative"))
                     ]
                 ),
                 html.Div(
                     className="metric-card",
                     children=[
-                        html.H4("Ann. Return"),
-                        html.P(f"{annualized_return*100:.2f}%", className="metric-value " + ("positive" if annualized_return > 0 else "negative"))
+                        html.H4("Daily Return"),
+                        html.P(f"{daily_return*100:.2f}%", className="metric-value " + ("positive" if daily_return > 0 else "negative"))
                     ]
                 ),
                 html.Div(
                     className="metric-card",
                     children=[
-                        html.H4("Ann. Volatility"),
-                        html.P(f"{annualized_volatility*100:.2f}%", className="metric-value " + ("positive" if annualized_volatility < 0.1 else "neutral" if annualized_volatility < 0.2 else "negative"))
+                        html.H4("Daily Volatility"),
+                        html.P(f"{daily_volatility*100:.2f}%", className="metric-value " + ("positive" if daily_volatility < 0.1 else "neutral" if daily_volatility < 0.2 else "negative"))
                     ]
                 ),
                 html.Div(
                     className="metric-card",
                     children=[
-                        html.H4("Calmar Ratio"),
+                        html.H4("Daily Calmar Ratio"),
                         html.P(f"{calmar_ratio:.2f}" if not np.isnan(calmar_ratio) else "N/A", className="metric-value " + ("positive" if calmar_ratio > 2 else "neutral" if calmar_ratio > 1 else "negative"))
                     ]
                 ),
                 html.Div(
                     className="metric-card",
                     children=[
-                        html.H4("Sortino Ratio"),
+                        html.H4("Daily Sortino Ratio"),
                         html.P(f"{sortino_ratio:.2f}" if not np.isnan(sortino_ratio) else "N/A", className="metric-value " + ("positive" if sortino_ratio > 1 else "neutral" if sortino_ratio > 0 else "negative"))
                     ]
                 )
