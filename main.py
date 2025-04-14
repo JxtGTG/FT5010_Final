@@ -157,6 +157,18 @@ while True:
                 else:
                     continue
 
+            # not in positions_list instruments list
+            new_buy_inst = [inst for inst in instruments if (inst not in positions_list and signal_results.get(inst, {}).get("signal") == "BUY")]
+            if new_buy_inst:
+                print(f"New buy signals detected for: {new_buy_inst}")
+                
+                # Create a filtered signal_results dictionary with only the new buy instruments
+                new_buy_signals = {inst: data for inst, data in signal_results.items() if inst in new_buy_inst}
+                
+                # Use the existing function with the filtered signals
+                find_quantities_and_trade(new_buy_signals)
+            
+
             # Check whether all positions have been closed
             positions_list = get_open_positions()
             if not positions_list or len(positions_list) == 0:
