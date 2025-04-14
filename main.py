@@ -112,9 +112,11 @@ def find_quantities_and_trade(signal_results):
 # Main trading loop
 while True:
     try:
+        signal_results = live_strategy.update_signal()
         # If no positions are open, generate signals and place orders
         if not inposition:
-            signal_results = live_strategy.update_signal()
+            # uncomment the below one if we don't allow short selling
+            # buy_signals = {inst: data for inst, data in signal_results.items() if data.get("signal") == "BUY"}
             if not signal_results or len(signal_results) == 0:
                 print("No signal generated")
             else:
@@ -134,6 +136,13 @@ while True:
                     current_price = float(pos.get("currentPrice", 0))
                 except Exception as e:
                     print(f"Error reading current price for {inst}: {e}")
+                    continue
+                
+                signal = signal_results.get(inst, {}).get("signal")
+                if signal == "SELL":
+                    print(f"{inst}: SELL signal triggered by indicators, closing position.")
+                    close_position(inst)
+                    open_trade_params.pop(inst, None)
                     continue
 
                 # If order parameters exist for this instrument, check if the individual exit condition is met
