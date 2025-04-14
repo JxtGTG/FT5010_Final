@@ -10,7 +10,6 @@ import oandapyV20
 import numpy as np
 import pandas as pd
 from datetime import datetime
-import main
 
 access_token = os.getenv('access_token')
 account_id = os.getenv('account_id')
@@ -1026,4 +1025,4 @@ def update_performance_chart(time_range, n):
 
 # Run the Dash app
 if __name__ == "__main__":
-    app.run_server(debug=True, use_reloader=False)
+    app.run_server(debug=True)
