@@ -703,21 +703,21 @@ app.layout = html.Div(
                             className="condition-item buy-condition",
                             children=[
                                 html.Span("BUY: ", className="condition-label buy-label"),
-                                "Short-term SMA > Long-term SMA, RSI < 70, and Current Price > Short-term EMA."
+                                running_strategy["buy_condition"]
                             ]
                         ),
                         html.Div(
                             className="condition-item sell-condition",
                             children=[
-                                html.Span("SELL: ", className="condition-label sell-label"),
-                                "Short-term SMA < Long-term SMA or RSI > 70."
+                                html.Span("SELL: ", className="condition-label sell-label"),    
+                                running_strategy["sell_condition"]
                             ]
                         ),
                         html.Div(
                             className="condition-item hold-condition",
                             children=[
                                 html.Span("HOLD: ", className="condition-label hold-label"),
-                                "When neither BUY nor SELL conditions are met."
+                                running_strategy["hold_condition"],
                             ]
                         ),
                     ]
