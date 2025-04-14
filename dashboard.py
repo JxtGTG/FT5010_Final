@@ -418,7 +418,7 @@ app.index_string = '''
 running_strategy = {
     "description": """This code implements a live trading strategy for forex markets using technical analysis. It retrieves historical price data from OANDA and generates trading signals ("BUY", "SELL", or "HOLD") for multiple currency pairs based on the following conditions:""",
     "buy_condition": """BUY: Short-term SMA > Long-term SMA, RSI < 70, and Current Price > Short-term EMA.""",
-    "sell_condition": """SELL: Short-term SMA < Long-term SMA or RSI > 70.""",
+    "sell_condition": """SELL: Short-term SMA < Long-term SMA or RSI > 70. Take-profit levels are set at 1%, and stop-loss levels at 0.5%.""",
     "hold_condition": """HOLD: When neither BUY nor SELL conditions are met.""",
     "conclusion": """The strategy continuously updates signals in real-time for the specified currency pairs.""",
     "instrument": "EUR_USD",
