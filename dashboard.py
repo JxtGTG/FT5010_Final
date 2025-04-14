@@ -530,6 +530,7 @@ def update_data():
             real_return = ((current_balance - initial_balance) / initial_balance) * 100
             # Append data for plotting and risk calculation
             strategy_returns.append(strategy_return)
+            real_returns.append(real_return)
             timestamps.append(time.time())  # Use Unix timestamp for accurate time filtering
             
             # Update EUR/USD data
