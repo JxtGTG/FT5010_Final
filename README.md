@@ -78,6 +78,9 @@ Once running, access the dashboard at:
 ```
 http://127.0.0.1:8050/
 ```
+## 💡 Dashboard Layout 
+
+![](https://raw.githubusercontent.com/Ukrys/DFintech_Courses_images/master/202504141957372.png)
 
 ## 🔍 Advanced Configuration
 
