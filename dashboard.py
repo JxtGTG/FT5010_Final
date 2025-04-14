@@ -506,12 +506,13 @@ def calculate_ratios(returns, timestamps, risk_free_rate=0.02, max_drawdown=0.0)
     
 # Lists to store returns over time
 strategy_returns = []  # List to store strategy returns (percentage values)
+real_returns = []
 timestamps = []  # List to store corresponding timestamps
 benchmark_return = (running_strategy["risk_free_rate"] / 365) * 100  # Daily risk-free rate converted to percentage
 
 # Update data function
 def update_data():
-    global current_balance, current_pnl, open_positions, strategy_returns, timestamps
+    global current_balance, current_pnl, open_positions, strategy_returns, timestamps, real_returns
     global eurusd_prices, eurusd_returns, eurusd_timestamps, initial_eurusd_price, current_eurusd_return
     
     while True:
@@ -526,7 +527,7 @@ def update_data():
             
             # Modified return calculation: (unrealized PnL + current balance)/initial_balance
             strategy_return = ((current_balance + current_pnl - initial_balance) / initial_balance) * 100
-
+            real_return = ((current_balance - initial_balance) / initial_balance) * 100
             # Append data for plotting and risk calculation
             strategy_returns.append(strategy_return)
             timestamps.append(time.time())  # Use Unix timestamp for accurate time filtering
@@ -874,7 +875,7 @@ def update_strategy_data(n):
         all_ratios = {}
         if len(strategy_returns) > 1 and len(timestamps) > 1:
             all_ratios = calculate_ratios(
-                pd.Series([r/100 for r in strategy_returns]), 
+                pd.Series([r/100 for r in real_returns]), 
                 pd.Series([datetime.fromtimestamp(ts) for ts in timestamps]), 
                 risk_free_rate=running_strategy["risk_free_rate"],
                 max_drawdown=risk/100
