@@ -5,6 +5,7 @@ import threading
 import time
 import plotly.graph_objects as go
 from risk_manager import get_current_balance, calculate_total_unrealised_pnl, get_open_positions, close_all_trades
+import oandapyV20.endpoints.instruments as instruments
 import os
 import oandapyV20
 import numpy as np
@@ -432,6 +433,12 @@ current_balance = get_current_balance()
 initial_balance = current_balance  # Record the initial balance
 open_positions = []
 kill_switch_triggered = False # Initialize the kill_switch_triggered flag
+
+eurusd_prices = []
+eurusd_returns = []
+eurusd_timestamps = []
+initial_eurusd_price = None
+current_eurusd_return = 0
 # Function to calculate Risk of Ruin based on maximum drawdown
 def calculate_max_drawdown(returns):
     if not returns:
@@ -445,7 +452,6 @@ def calculate_max_drawdown(returns):
         if drawdown > max_drawdown:
             max_drawdown = drawdown
     return max_drawdown
-
 
 def calculate_ratios(returns, timestamps, risk_free_rate=0.02, max_drawdown=0.0):
     if len(returns) < 2 or len(timestamps) < 2:
@@ -506,11 +512,9 @@ benchmark_return = (running_strategy["risk_free_rate"] / 365) * 100  # Daily ris
 # Update data function
 def update_data():
     global current_balance, current_pnl, open_positions, strategy_returns, timestamps
-    # global kill_switch_triggered
+    global eurusd_prices, eurusd_returns, eurusd_timestamps, initial_eurusd_price, current_eurusd_return
+    
     while True:
-        # if kill_switch_triggered: # Stop updating data if Kill Switch is triggered
-        #     print("Kill Switch triggered. Stopping strategy updates.")
-        #     break
         try:
             # Update balance and calculate return
             current_balance = get_current_balance()
@@ -519,11 +523,42 @@ def update_data():
 
             # Update global variables
             open_positions = open_positions_dict
-            strategy_return = ((current_balance - initial_balance) / initial_balance) * 100
+            
+            # Modified return calculation: (unrealized PnL + current balance)/initial_balance
+            strategy_return = ((current_balance + current_pnl - initial_balance) / initial_balance) * 100
 
             # Append data for plotting and risk calculation
             strategy_returns.append(strategy_return)
             timestamps.append(time.time())  # Use Unix timestamp for accurate time filtering
+            
+            # Update EUR/USD data
+            params = {
+                "count": 1,
+                "granularity": "S5"  # 5-second granularity
+            }
+            
+            r = instruments.InstrumentsCandles(instrument="EUR_USD", params=params)
+            client.request(r)
+            candles = r.response.get('candles', [])
+            
+            if candles and len(candles) > 0:
+                # get the current price
+                current_price = float(candles[0]['mid']['c'])
+                current_timestamp = time.time()
+                
+                # Check if initial price is set
+                if initial_eurusd_price is None:
+                    initial_eurusd_price = current_price
+                
+                # Calculate the return
+                eurusd_return = ((current_price - initial_eurusd_price) / initial_eurusd_price) * 100
+                current_eurusd_return = eurusd_return
+                
+                # Append data for EUR/USD
+                eurusd_prices.append(current_price)
+                eurusd_returns.append(eurusd_return)
+                eurusd_timestamps.append(current_timestamp)
+            
         except Exception as e:
             print(f"Error updating data: {e}")
         time.sleep(5)
@@ -712,8 +747,8 @@ app.layout = html.Div(
                 html.Div(
                     className="metric-card",
                     children=[
-                        html.H4("Risk-Free Return"),
-                        html.P(f"{benchmark_return:.2f}%", className="metric-value neutral"),
+                        html.H4("Benchmark Return(EUR/USD)"),
+                        html.P(id="eurusd-return-display", className="metric-value neutral"),
                     ]
                 ),
                 html.Div(
@@ -791,6 +826,8 @@ app.layout = html.Div(
     [Output("equity-display", "children"),
      Output("pnl-display", "children"),
      Output("pnl-display", "className"),
+     Output("eurusd-return-display", "children"),  
+     Output("eurusd-return-display", "className"),  
      Output("risk-display", "children"),
      Output("risk-display", "className"),
      Output("positions-details", "children"),
@@ -800,7 +837,7 @@ app.layout = html.Div(
     [Input("interval", "n_intervals")]
 )
 def update_strategy_data(n):
-    global current_balance, current_pnl, open_positions, strategy_returns
+    global current_balance, current_pnl, open_positions, strategy_returns, current_eurusd_return
     
     equity = f"${current_balance:.2f}"
     pnl = f"${current_pnl:.2f}"
@@ -812,6 +849,15 @@ def update_strategy_data(n):
         pnl_class = "metric-value negative"
     else:
         pnl_class = "metric-value neutral"
+    
+    # CSS class for EUR/USD return
+    eurusd_return_str = f"{current_eurusd_return:.2f}%"
+    if current_eurusd_return > 0:
+        eurusd_return_class = "metric-value positive"
+    elif current_eurusd_return < 0:
+        eurusd_return_class = "metric-value negative"
+    else:
+        eurusd_return_class = "metric-value neutral"
     
     # Calculate Risk of Ruin based on strategy returns
     risk = calculate_max_drawdown(strategy_returns)
@@ -898,8 +944,6 @@ def update_strategy_data(n):
         print(f"Error calculating ratios: {e}")
         additional_metrics = html.Div()  # Empty div if error occurs
 
-    
-    
     # Generate positions table with the most valuable information
     positions_table = generate_positions_table(open_positions)
     
@@ -924,8 +968,7 @@ def update_strategy_data(n):
             html.Span(f"Loss: ${total_loss:.2f}", className="position-badge loss")
         ])
     
-    return equity, pnl, pnl_class, risk_str, risk_class, positions_table, positions_summary, additional_metrics
-
+    return equity, pnl, pnl_class, eurusd_return_str, eurusd_return_class, risk_str, risk_class, positions_table, positions_summary, additional_metrics
 # Callback: kill switch to close all trades and update status
 @app.callback(
     [Output("kill-switch", "children"),
@@ -974,16 +1017,24 @@ def display_confirmation(n_clicks):
      Input("interval", "n_intervals")]
 )
 def update_performance_chart(time_range, n):
-    global strategy_returns, timestamps, benchmark_return
+    global strategy_returns, timestamps, eurusd_returns, eurusd_timestamps
 
     # Filter data based on selected time range
     current_time = time.time()
+    
+    # filter strategy returns
     filtered_indices = [i for i, t in enumerate(timestamps) if current_time - t <= time_range]
     filtered_timestamps = [timestamps[i] for i in filtered_indices]
     filtered_returns = [strategy_returns[i] for i in filtered_indices]
 
+    # filter eurusd returns
+    filtered_eurusd_indices = [i for i, t in enumerate(eurusd_timestamps) if current_time - t <= time_range]
+    # filtered_eurusd_timestamps = [eurusd_timestamps[i] for i in filtered_eurusd_indices]
+    filtered_eurusd_returns = [eurusd_returns[i] for i in filtered_eurusd_indices]
+
     # Convert timestamps to readable format
     readable_timestamps = [time.strftime("%H:%M:%S", time.localtime(t)) for t in filtered_timestamps]
+    # readable_eurusd_timestamps = [time.strftime("%H:%M:%S", time.localtime(t)) for t in filtered_eurusd_timestamps]
 
     # Create the figure with improved styling
     fig = go.Figure()
@@ -998,18 +1049,18 @@ def update_performance_chart(time_range, n):
         marker=dict(size=8)
     ))
 
-    # Add benchmark returns as a horizontal line
+    # Add EUR/USD returns as a line (instead of benchmark)
     fig.add_trace(go.Scatter(
         x=readable_timestamps,
-        y=[benchmark_return] * len(readable_timestamps),  # Benchmark is a constant value
+        y=filtered_eurusd_returns,
         mode='lines',
-        name="Benchmark (Risk-Free Rate)",
-        line=dict(color='#e74c3c', width=2, dash='dot')
+        name="EUR/USD Returns",
+        line=dict(color='#e74c3c', width=2)
     ))
 
     # Update layout with better styling
     fig.update_layout(
-        title="Strategy Returns vs Benchmark",
+        title="Strategy Returns vs EUR/USD",
         xaxis_title="Time",
         yaxis_title="Returns (%)",
         plot_bgcolor='rgba(240, 242, 245, 0.8)',
@@ -1022,6 +1073,7 @@ def update_performance_chart(time_range, n):
     )
 
     return fig
+
 
 # Run the Dash app
 if __name__ == "__main__":
