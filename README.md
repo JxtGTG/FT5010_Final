@@ -21,10 +21,9 @@ This project implements an automated trading system for forex markets using tech
 The trading strategy generates signals based on the following conditions:
 
 - **BUY** ✅: Short-term SMA > Long-term SMA, RSI < 70, and Current Price > Short-term EMA
-- **SELL** ❌: Short-term SMA < Long-term SMA or RSI > 70
+- **SELL** ❌: Short-term SMA < Long-term SMA or RSI > 70. Take-profit levels are set at 1%, and stop-loss levels at 0.5%.
 - **HOLD** ⏸️: When neither BUY nor SELL conditions are met
 
-Take-profit levels are set at 1%, and stop-loss levels at 0.5%.
 
 ## 📁 Project Structure
 
