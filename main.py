@@ -112,9 +112,11 @@ def find_quantities_and_trade(signal_results):
 # Main trading loop
 while True:
     try:
+        signal_results = live_strategy.update_signal()
         # If no positions are open, generate signals and place orders
         if not inposition:
-            signal_results = live_strategy.update_signal()
+            # uncomment the below one if we don't allow short selling
+            # buy_signals = {inst: data for inst, data in signal_results.items() if data.get("signal") == "BUY"}
             if not signal_results or len(signal_results) == 0:
                 print("No signal generated")
             else:
@@ -135,6 +137,13 @@ while True:
                 except Exception as e:
                     print(f"Error reading current price for {inst}: {e}")
                     continue
+                
+                signal = signal_results.get(inst, {}).get("signal")
+                if signal == "SELL":
+                    print(f"{inst}: SELL signal triggered by indicators, closing position.")
+                    close_position(inst)
+                    open_trade_params.pop(inst, None)
+                    continue
 
                 # If order parameters exist for this instrument, check if the individual exit condition is met
                 if inst in open_trade_params:
@@ -147,6 +156,18 @@ while True:
                         open_trade_params.pop(inst, None)
                 else:
                     continue
+
+            # not in positions_list instruments list
+            new_buy_inst = [inst for inst in instruments if (inst not in positions_list and signal_results.get(inst, {}).get("signal") == "BUY")]
+            if new_buy_inst:
+                print(f"New buy signals detected for: {new_buy_inst}")
+                
+                # Create a filtered signal_results dictionary with only the new buy instruments
+                new_buy_signals = {inst: data for inst, data in signal_results.items() if inst in new_buy_inst}
+                
+                # Use the existing function with the filtered signals
+                find_quantities_and_trade(new_buy_signals)
+            
 
             # Check whether all positions have been closed
             positions_list = get_open_positions()
