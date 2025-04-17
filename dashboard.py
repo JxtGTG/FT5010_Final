@@ -494,13 +494,29 @@ def calculate_ratios(returns, timestamps, risk_free_rate=0.02, max_drawdown=0.0)
     downside_vol = downside_returns.std()
     sortino_ratio = (daily_return - rf_daily) / downside_vol if downside_vol > 0 else np.nan
 
-    return {
+    # return {
+    #     'Sharpe Ratio': sharpe_ratio,
+    #     'Daily Return': daily_return,
+    #     'Daily Volatility': daily_volatility,
+    #     'Calmar Ratio': calmar_ratio,
+    #     'Sortino Ratio': sortino_ratio,
+    # }
+    result = {}
+    for key, value in {
         'Sharpe Ratio': sharpe_ratio,
         'Daily Return': daily_return,
         'Daily Volatility': daily_volatility,
         'Calmar Ratio': calmar_ratio,
         'Sortino Ratio': sortino_ratio,
-    }
+    }.items():
+        if isinstance(value, (int, float)) and not np.isnan(value):
+            if abs(value) > 1e6 or (abs(value) < 1e-4 and value != 0):
+                value = "{:.4e}".format(value)
+            else:
+                value = float(value) 
+        result[key] = value
+
+    return result
     
 # Lists to store returns over time
 strategy_returns = []  # List to store strategy returns (percentage values)
